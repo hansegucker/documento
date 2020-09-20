@@ -1,10 +1,18 @@
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Documento</title>
+    {% render_bundle 'vendors' 'css' %}
+    {% render_bundle 'main' 'css' %}
+    {% render_bundle 'runtime-main' 'css' %}
 </head>
 <body>
-$END$
+<div id="root"></div>
+{% render_bundle 'vendors' 'js' %}
+{% render_bundle 'main' 'js' %}
+{% render_bundle 'runtime-main' 'js' %}
 </body>
 </html>
