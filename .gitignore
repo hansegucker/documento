@@ -161,3 +161,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea/
+frontend/webpack-stats.dev.json
