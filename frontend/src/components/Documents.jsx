@@ -4,12 +4,16 @@ import {connect} from 'react-redux';
 import {documents} from "../actions";
 
 class Documents extends Component {
-    state = {text: ""}
+    state = {name: ""}
 
     addDocument = (e) => {
         e.preventDefault();
-        this.props.addDocument(this.state.text);
-        this.setState({text: ""});
+        this.props.addDocument(this.state.name);
+        this.setState({name: ""});
+    }
+
+    componentDidMount() {
+        this.props.fetchDocuments();
     }
 
     render() {
@@ -21,14 +25,14 @@ class Documents extends Component {
                 </p>
                 <form onSubmit={this.addDocument}>
                     <input
-                        value={this.state.text}
+                        value={this.state.name}
                         placeholder="Enter document title here..."
-                        onChange={(e) => this.setState({text: e.target.value})}
+                        onChange={(e) => this.setState({name: e.target.value})}
                         required/>
                     <input type="submit" value="Save Document"/>
                 </form>
                 {this.props.documents.map((document, id) => (<div key={`note_${id}`}>
-                    {document.text}
+                    {document.name}
                     <button>edit</button>
                     <button onClick={() => this.props.deleteDocument(id)}>delete</button>
                 </div>))}
@@ -45,14 +49,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addDocument: (text) => {
-            dispatch(documents.addDocument(text));
+        fetchDocuments: () => {
+            return dispatch(documents.fetchDocuments());
         },
-        updateDocument: (id, text) => {
-            dispatch(documents.updateDocument(id, text));
+        addDocument: (name) => {
+            return dispatch(documents.addDocument(name));
+        },
+        updateDocument: (id, name) => {
+            return dispatch(documents.updateDocument(id, name));
         },
         deleteDocument: (id) => {
-            dispatch(documents.deleteDocument(id));
+            return dispatch(documents.deleteDocument(id));
         },
     }
 }

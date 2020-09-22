@@ -4,11 +4,12 @@ import './App.css';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Dashboard from "./components/Documents";
 import NotFound from "./components/NotFound";
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import documentoApp from "./reducers";
 import {Provider} from "react-redux";
+import thunk from "redux-thunk";
 
-let store = createStore(documentoApp);
+let store = createStore(documentoApp, applyMiddleware(thunk));
 
 function App() {
     return (
