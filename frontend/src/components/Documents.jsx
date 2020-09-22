@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-import {documents} from "../actions";
+import {documents, auth} from "../actions";
 
 class Documents extends Component {
     state = {name: ""}
@@ -23,6 +23,11 @@ class Documents extends Component {
                 <p>
                     <Link to="/contact">Click Here</Link> to contact us!
                 </p>
+                <div style={{textAlign: "right"}}>
+                    {this.props.user.username} (
+                    <button onClick={this.props.logout}>logout</button>
+                    )
+                </div>
                 <form onSubmit={this.addDocument}>
                     <input
                         value={this.state.name}
@@ -44,6 +49,7 @@ class Documents extends Component {
 const mapStateToProps = state => {
     return {
         documents: state.documents,
+        user: state.auth.user,
     }
 }
 
@@ -61,6 +67,7 @@ const mapDispatchToProps = dispatch => {
         deleteDocument: (id) => {
             return dispatch(documents.deleteDocument(id));
         },
+        logout: () => dispatch(auth.logout()),
     }
 }
 

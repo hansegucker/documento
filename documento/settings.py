@@ -5,7 +5,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "r$ebsd+3b&*4i)lf1uw(r*%k13yn7%41oi7ulw)+bgoke498_^"
 
@@ -13,7 +12,6 @@ SECRET_KEY = "r$ebsd+3b&*4i)lf1uw(r*%k13yn7%41oi7ulw)+bgoke498_^"
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -27,6 +25,7 @@ INSTALLED_APPS = [
     "webpack_loader",
     "documents.apps.DocumentsConfig",
     "rest_framework",
+    "knox",
 ]
 
 MIDDLEWARE = [
@@ -59,7 +58,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "documento.wsgi.application"
 
-
 # Database
 
 DATABASES = {
@@ -68,7 +66,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 
@@ -80,7 +77,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
-
 
 # Internationalization
 
@@ -94,7 +90,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = "/static/"
@@ -104,4 +99,8 @@ WEBPACK_LOADER = {
         "BUNDLE_DIR_NAME": "bundles/",
         "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.dev.json"),
     }
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
 }
