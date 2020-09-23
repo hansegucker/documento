@@ -6,10 +6,15 @@ import {Link, Redirect} from "react-router-dom";
 import {auth} from "../actions";
 
 class Login extends Component {
-    state = {
+    constructor() {
+                super();
+
+        this.state = {
         username: "",
         password: "",
     }
+    }
+
 
     onSubmit = e => {
         e.preventDefault();

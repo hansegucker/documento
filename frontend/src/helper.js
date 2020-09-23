@@ -26,4 +26,13 @@ function catchServerErrors(res) {
     }
 }
 
-export {getAPIHeaders, catchAPIErrors, catchServerErrors};
+function loadLocaleData(locale) {
+    switch (locale) {
+        case 'de':
+            return import('./lang/de.json')
+        default:
+            return import('./lang/en.json')
+    }
+}
+
+export {getAPIHeaders, catchAPIErrors, catchServerErrors, loadLocaleData};

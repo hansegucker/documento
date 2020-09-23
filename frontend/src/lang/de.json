@@ -1,0 +1,8 @@
+{
+  "app.buttons.logout": "Abmelden",
+  "documents.buttons.delete": "Löschen",
+  "documents.buttons.edit": "Bearbeiten",
+  "documents.buttons.save": "Dokument speichern",
+  "documents.placeholders.enter-title": "Titel eingeben …",
+  "documents.texts.welcome-message": "Herzlich willkommen in Documento!"
+}

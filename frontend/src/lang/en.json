@@ -1,0 +1,8 @@
+{
+  "app.buttons.logout": "Logout",
+  "documents.buttons.delete": "Delete",
+  "documents.buttons.edit": "Edit",
+  "documents.buttons.save": "Save document",
+  "documents.placeholders.enter-title": "Enter title ...",
+  "documents.texts.welcome-message": "Welcome to documento!"
+}

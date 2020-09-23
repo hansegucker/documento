@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-intl": "^5.8.2",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
@@ -18,7 +19,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build && mv build ../static/bundles",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "extract": "NODE_ENV=development extract-messages -l=en,de -o src/lang/ -d en --flat true './src/**/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,6 +38,9 @@
     ]
   },
   "devDependencies": {
+    "@formatjs/cli": "^2.11.3",
+    "babel-plugin-react-intl": "^8.2.3",
+    "extract-react-intl-messages": "^4.1.1",
     "react-app-rewired": "^2.1.6",
     "webpack-bundle-tracker": "^0.4.3"
   },

@@ -9,6 +9,7 @@ import {connect, Provider} from "react-redux";
 import thunk from "redux-thunk";
 import Login from "./components/Login";
 import {auth} from "./actions";
+import {IntlProvider} from "react-intl";
 
 let store = createStore(documentoApp, applyMiddleware(thunk));
 
@@ -60,9 +61,11 @@ let RootContainer = connect(mapStateToProps, mapDispatchToProps)(RootContainerCo
 export default class App extends Component {
     render() {
         return (
-            <Provider store={store}>
-                <RootContainer/>
-            </Provider>
+            <IntlProvider messages={this.props.messages} locale={this.props.locale} defaultLocale="en">
+                <Provider store={store}>
+                    <RootContainer/>
+                </Provider>
+            </IntlProvider>
         )
     }
 }
