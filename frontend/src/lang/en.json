@@ -1,8 +1,12 @@
 {
   "app.buttons.logout": "Logout",
-  "documents.buttons.delete": "Delete",
-  "documents.buttons.edit": "Edit",
+  "app.loggedInAs": "Logged in as {username}",
+  "documents.addDocument": "Add a new document",
   "documents.buttons.save": "Save document",
   "documents.placeholders.enter-title": "Enter title ...",
-  "documents.texts.welcome-message": "Welcome to documento!"
+  "documents.texts.welcome-message": "Welcome to documento!",
+  "login.buttons.login": "Login",
+  "login.inputs.password": "Password",
+  "login.inputs.username": "Username",
+  "login.login": "Login"
 }

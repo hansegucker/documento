@@ -1,8 +1,12 @@
 {
   "app.buttons.logout": "Abmelden",
-  "documents.buttons.delete": "Löschen",
-  "documents.buttons.edit": "Bearbeiten",
+  "app.loggedInAs": "Angemeldet als",
+  "documents.addDocument": "Dokument hinzufügen",
   "documents.buttons.save": "Dokument speichern",
   "documents.placeholders.enter-title": "Titel eingeben …",
-  "documents.texts.welcome-message": "Herzlich willkommen in Documento!"
+  "documents.texts.welcome-message": "Herzlich willkommen in Documento!",
+  "login.buttons.login": "Anmelden",
+  "login.inputs.password": "Passwort",
+  "login.inputs.username": "Benutzername",
+  "login.login": "Anmeldung"
 }
