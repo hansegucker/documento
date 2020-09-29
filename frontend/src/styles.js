@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundSize: "cover"
     },
     loginCard: {
-        maxWidth: "400px"
+        minWidth: "400px"
     },
     fullWidth: {
         width: "100%"
