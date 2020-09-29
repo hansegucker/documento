@@ -22,7 +22,7 @@ jobs:
 
           commit_options: '--no-verify --signoff'
 
-          file_pattern: *.py
+          file_pattern: "*.py"
 
           # Optional commit user and author settings
         #    commit_user_name: My GitHub Actions Bot
