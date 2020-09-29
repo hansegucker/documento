@@ -7,6 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import {useStyles} from "../styles";
+import LanguageSelect from "./LanguageSelect";
 
 const drawerWidth = 240;
 
@@ -34,6 +35,9 @@ export default function MainDrawer() {
                 </ListItem>
             ))}
         </List>
+        <div className={classes.languageSelectContainer}>
+            <LanguageSelect/>
+        </div>
     </div>;
 }
 

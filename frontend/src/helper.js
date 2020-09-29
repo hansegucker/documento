@@ -26,13 +26,29 @@ function catchServerErrors(res) {
     }
 }
 
-function loadLocaleData(locale) {
-    switch (locale) {
-        case 'de':
-            return import('./lang/de.json')
-        default:
-            return import('./lang/en.json')
+const locales = {
+    en: {
+        id: "en",
+        shortcode: "EN",
+        name: "English",
+        flag: "GB.svg",
+        path: () => import('./lang/en.json')
+    },
+    de: {
+        id: "de",
+        shortcode: "DE",
+        name: "Deutsch",
+        flag: "DE.svg",
+        path: () => import('./lang/de.json')
     }
 }
 
-export {getAPIHeaders, catchAPIErrors, catchServerErrors, loadLocaleData};
+async function loadLocaleData(locale) {
+    let messages = {}
+    for (locale of Object.values(locales)) {
+         messages[locale.id] = await locale.path()
+    }
+    return messages
+}
+
+export {getAPIHeaders, catchAPIErrors, catchServerErrors, loadLocaleData, locales};

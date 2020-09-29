@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import './App.css';
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Dashboard from "./components/Documents";
@@ -10,19 +10,24 @@ import thunk from "redux-thunk";
 import Login from "./components/Login";
 import {auth} from "./actions";
 import {IntlProvider} from "react-intl";
+import {useStyles} from "./styles";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 let store = createStore(documentoApp, applyMiddleware(thunk));
 
-class RootContainerComponent extends Component {
-    componentDidMount() {
-        this.props.loadUser();
-    }
+function RootContainerComponent(props) {
+    useEffect(() => {
+        props.loadUser();
+    }, [props.user]);
 
-    PrivateRoute = ({component: ChildComponent, ...rest}) => {
-        return <Route {...rest} render={props => {
-            if (this.props.auth.isLoading) {
+    const classes = useStyles();
+
+    const PrivateRoute = ({component: ChildComponent, ...rest}) => {
+        return <Route {...rest} render={props2 => {
+            if (props.auth.isLoading) {
                 return <em>Loading...</em>;
-            } else if (!this.props.auth.isAuthenticated) {
+            } else if (!props.auth.isAuthenticated) {
                 return <Redirect to="/login"/>;
             } else {
                 return <ChildComponent {...props} />
@@ -30,23 +35,29 @@ class RootContainerComponent extends Component {
         }}/>
     }
 
-    render() {
-        let {PrivateRoute} = this;
-        return (
+    return (
+        <IntlProvider messages={props.messages[props.locale.id]} locale={props.locale.id}
+                      defaultLocale="en">
             <BrowserRouter>
-                <Switch>
-                    <PrivateRoute exact path={"/"} component={Dashboard}/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route component={NotFound}/>
-                </Switch>
+                {props.auth.isAuthenticated ? <Header/> : ""}
+                <div className={props.auth.isAuthenticated ? classes.toolbar : ""}/>
+                <main className={props.auth.isAuthenticated ? classes.content : classes.contentLogin}>
+                    <Switch>
+                        <PrivateRoute exact path={"/"} component={Dashboard}/>
+                        <Route exact path="/login" component={Login}/>
+                        <Route component={NotFound}/>
+                    </Switch>
+                </main>
+                <Footer/>
             </BrowserRouter>
-        );
-    }
+        </IntlProvider>
+    );
 }
 
 const mapStateToProps = state => {
     return {
         auth: state.auth,
+        locale: state.locale
     }
 }
 
@@ -61,11 +72,10 @@ let RootContainer = connect(mapStateToProps, mapDispatchToProps)(RootContainerCo
 export default class App extends Component {
     render() {
         return (
-            <IntlProvider messages={this.props.messages} locale={this.props.locale} defaultLocale="en">
-                <Provider store={store}>
-                    <RootContainer/>
-                </Provider>
-            </IntlProvider>
+
+            <Provider store={store}>
+                <RootContainer messages={this.props.messages}/>
+            </Provider>
         )
     }
 }

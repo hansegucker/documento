@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    contentLogin: {
+        height: "100%"
+    },
     appToolbar: {
         justifyContent: "space-between"
     },
@@ -66,6 +69,24 @@ const useStyles = makeStyles((theme) => ({
     },
     fullWidth: {
         width: "100%"
+    },
+    footer: {
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: drawerWidth,
+        },
+        padding: theme.spacing(3),
+    },
+    languageSelectContainer: {
+        position: "absolute",
+        bottom: "20px",
+        display: "flex",
+        justifyContent: "center",
+        width: "100%"
+    },
+    flag: {
+        height: "12px",
+        marginRight: "10px",
+        marginBottom: "1px"
     }
 }));
 

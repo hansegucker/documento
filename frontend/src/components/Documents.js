@@ -2,14 +2,12 @@ import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux';
 import {documents, auth} from "../actions";
 import {FormattedMessage, useIntl} from 'react-intl'
-import Header from "./Header";
 import {useStyles} from "../styles";
 import Card from "@material-ui/core/Card";
 import {CardContent, Typography} from "@material-ui/core";
 import CardMedia from "@material-ui/core/CardMedia";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import {DataGrid} from "@material-ui/data-grid";
 import TableContainer from "@material-ui/core/TableContainer";
 import Table from "@material-ui/core/Table";
 import TableHead from "@material-ui/core/TableHead";
@@ -34,15 +32,8 @@ function Documents(props) {
         props.addDocument(name);
         setName("");
     };
-    const columns = [
-        {field: 'id', headerName: 'ID', width: 70},
-        {field: 'name', headerName: 'Name', width: 130},
-    ];
     return (
         <div>
-            <Header/>
-            <div className={classes.toolbar}/>
-            <main className={classes.content}>
                 <Card className={classes.cardMediaLeft + " " + classes.marginBottom}>
                     <CardMedia
                         image="/static/documents.jpg"
@@ -92,7 +83,7 @@ function Documents(props) {
                         </TableHead>
                         <TableBody>
                             {props.documents.map((document, id) => (
-                                <TableRow key={document.name}>
+                                <TableRow key={document.id}>
                                     <TableCell component="th" scope="row">
                                         {document.name}
                                     </TableCell>
@@ -112,7 +103,6 @@ function Documents(props) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </main>
         </div>
     )
 }

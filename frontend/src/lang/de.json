@@ -1,6 +1,6 @@
 {
   "app.buttons.logout": "Abmelden",
-  "app.loggedInAs": "Angemeldet als",
+  "app.loggedInAs": "Angemeldet als {username}",
   "documents.addDocument": "Dokument hinzufügen",
   "documents.buttons.save": "Dokument speichern",
   "documents.placeholders.enter-title": "Titel eingeben …",

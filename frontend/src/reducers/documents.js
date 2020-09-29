@@ -5,7 +5,7 @@ export default function documents(state = initialState, action) {
     let documentList = state.slice();
     switch (action.type) {
         case 'FETCH_DOCUMENTS':
-            return [...state, ...action.documents];
+            return [...action.documents];
         case "ADD_DOCUMENT":
             return [...state, action.document];
         case "UPDATE_DOCUMENT":
