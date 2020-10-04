@@ -1,12 +1,22 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.db.models import Max
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 
 
+def rename_document_pdf(instance: "Document", filename: str):
+    return instance.generate_filename()
+
+
 class Document(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Document name"))
-    # path = TextField()
+    file = models.FileField(
+        _("PDF file"),
+        validators=[FileExtensionValidator(allowed_extensions=["pdf"])],
+        null=True,
+        blank=True,
+    )
     added_at = models.DateTimeField(auto_now_add=True)
     is_in_progress = models.BooleanField(default=False)
 
