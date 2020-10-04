@@ -1,19 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import 'fontsource-roboto';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import "fontsource-roboto";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 import {loadLocaleData} from "./helper";
 
 async function bootstrapApplication() {
-    const messages = await loadLocaleData()
-    ReactDOM.render(
-        <React.StrictMode>
-            <App messages={messages}/>
-        </React.StrictMode>,
-        document.getElementById('root')
-    );
+  const messages = await loadLocaleData();
+  ReactDOM.render(
+    <React.StrictMode>
+      <App messages={messages} />
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
 }
 
 bootstrapApplication();

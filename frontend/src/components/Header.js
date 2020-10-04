@@ -15,86 +15,91 @@ import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import Button from "@material-ui/core/Button";
 
-
 function Header(props) {
-    const [mobileOpen, handleDrawerToggle] = useState(false);
-    const container = window !== undefined ? () => window.document.body : undefined;
-    const classes = useStyles();
-    const theme = useTheme();
+  const [mobileOpen, handleDrawerToggle] = useState(false);
+  const container =
+    window !== undefined ? () => window.document.body : undefined;
+  const classes = useStyles();
+  const theme = useTheme();
 
-    return <div>
-        <CssBaseline/>
-        <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar className={classes.appToolbar}>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={handleDrawerToggle}
-                    className={classes.menuButton}
-                >
-                    <MenuIcon/>
-                </IconButton>
-                <Typography variant="h6" noWrap>
-                    Documento
-                </Typography>
+  return (
+    <div>
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar className={classes.appToolbar}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            Documento
+          </Typography>
 
-                <div className={classes.appBarRight}>
-                    <Typography>
-                        <FormattedMessage id={"app.loggedInAs"} defaultMessage={"Logged in as {username}"}
-                                          values={{username: props.user.username}}/>
-                    </Typography>
-                    <Button onClick={props.logout} color={"inherit"}>
-                        <FormattedMessage id={"app.buttons.logout"} defaultMessage={"Logout"}/>
-                    </Button>
-                </div>
-            </Toolbar>
-        </AppBar>
-        <nav className={classes.drawer} aria-label="mailbox folders">
-            {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-            <Hidden smUp implementation="css">
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                >
-                    <MainDrawer/>
-                </Drawer>
-            </Hidden>
-            <Hidden xsDown implementation="css">
-                <Drawer
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                    variant="permanent"
-                    open
-                >
-                    <MainDrawer/>
-                </Drawer>
-            </Hidden>
-        </nav>
-    </div>;
+          <div className={classes.appBarRight}>
+            <Typography>
+              <FormattedMessage
+                id={"app.loggedInAs"}
+                defaultMessage={"Logged in as {username}"}
+                values={{username: props.user.username}}
+              />
+            </Typography>
+            <Button onClick={props.logout} color={"inherit"}>
+              <FormattedMessage
+                id={"app.buttons.logout"}
+                defaultMessage={"Logout"}
+              />
+            </Button>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            container={container}
+            variant="temporary"
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}>
+            <MainDrawer />
+          </Drawer>
+        </Hidden>
+        <Hidden xsDown implementation="css">
+          <Drawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open>
+            <MainDrawer />
+          </Drawer>
+        </Hidden>
+      </nav>
+    </div>
+  );
 }
 
-const mapStateToProps = state => {
-    return {
-        documents: state.documents,
-        user: state.auth.user,
-    }
-}
+const mapStateToProps = (state) => {
+  return {
+    documents: state.documents,
+    user: state.auth.user,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-    return {
-        logout: () => dispatch(auth.logout()),
-    }
-}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(auth.logout()),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,5 +1,5 @@
-import React, {Component, useEffect} from 'react';
-import './App.css';
+import React, {Component, useEffect} from "react";
+import "./App.css";
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Dashboard from "./components/Documents";
 import NotFound from "./components/NotFound";
@@ -17,65 +17,77 @@ import Footer from "./components/Footer";
 let store = createStore(documentoApp, applyMiddleware(thunk));
 
 function RootContainerComponent(props) {
-    useEffect(() => {
-        props.loadUser();
-    }, [props.user]);
+  useEffect(() => {
+    props.loadUser();
+  }, [props.user]);
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const PrivateRoute = ({component: ChildComponent, ...rest}) => {
-        return <Route {...rest} render={props2 => {
-            if (props.auth.isLoading) {
-                return <em>Loading...</em>;
-            } else if (!props.auth.isAuthenticated) {
-                return <Redirect to="/login"/>;
-            } else {
-                return <ChildComponent {...props} />
-            }
-        }}/>
-    }
-
+  const PrivateRoute = ({component: ChildComponent, ...rest}) => {
     return (
-        <IntlProvider messages={props.messages[props.locale.id]} locale={props.locale.id}
-                      defaultLocale="en">
-            <BrowserRouter>
-                {props.auth.isAuthenticated ? <Header/> : ""}
-                <div className={props.auth.isAuthenticated ? classes.toolbar : ""}/>
-                <main className={props.auth.isAuthenticated ? classes.content : classes.contentLogin}>
-                    <Switch>
-                        <PrivateRoute exact path={"/"} component={Dashboard}/>
-                        <Route exact path="/login" component={Login}/>
-                        <Route component={NotFound}/>
-                    </Switch>
-                </main>
-                <Footer/>
-            </BrowserRouter>
-        </IntlProvider>
+      <Route
+        {...rest}
+        render={(props2) => {
+          if (props.auth.isLoading) {
+            return <em>Loading...</em>;
+          } else if (!props.auth.isAuthenticated) {
+            return <Redirect to="/login" />;
+          } else {
+            return <ChildComponent {...props} />;
+          }
+        }}
+      />
     );
+  };
+
+  return (
+    <IntlProvider
+      messages={props.messages[props.locale.id]}
+      locale={props.locale.id}
+      defaultLocale="en">
+      <BrowserRouter>
+        {props.auth.isAuthenticated ? <Header /> : ""}
+        <div className={props.auth.isAuthenticated ? classes.toolbar : ""} />
+        <main
+          className={
+            props.auth.isAuthenticated ? classes.content : classes.contentLogin
+          }>
+          <Switch>
+            <PrivateRoute exact path={"/"} component={Dashboard} />
+            <Route exact path="/login" component={Login} />
+            <Route component={NotFound} />
+          </Switch>
+        </main>
+        <Footer />
+      </BrowserRouter>
+    </IntlProvider>
+  );
 }
 
-const mapStateToProps = state => {
-    return {
-        auth: state.auth,
-        locale: state.locale
-    }
-}
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+    locale: state.locale,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-    return {
-        loadUser: () => {
-            return dispatch(auth.loadUser());
-        }
-    }
-}
-let RootContainer = connect(mapStateToProps, mapDispatchToProps)(RootContainerComponent);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadUser: () => {
+      return dispatch(auth.loadUser());
+    },
+  };
+};
+let RootContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RootContainerComponent);
 export default class App extends Component {
-    render() {
-        return (
-
-            <Provider store={store}>
-                <RootContainer messages={this.props.messages}/>
-            </Provider>
-        )
-    }
+  render() {
+    return (
+      <Provider store={store}>
+        <RootContainer messages={this.props.messages} />
+      </Provider>
+    );
+  }
 }

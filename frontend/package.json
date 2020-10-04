@@ -46,6 +46,7 @@
     "@formatjs/cli": "^2.11.3",
     "babel-plugin-react-intl": "^8.2.3",
     "extract-react-intl-messages": "^4.1.1",
+    "prettier": "^2.1.2",
     "react-app-rewired": "^2.1.6",
     "webpack-bundle-tracker": "^0.4.3"
   },

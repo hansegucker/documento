@@ -14,81 +14,96 @@ import {useStyles} from "../styles";
 import {FormattedMessage, useIntl} from "react-intl";
 
 function Login(props) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
+  const classes = useStyles();
+  const intl = useIntl();
 
-    const classes = useStyles();
-    const intl = useIntl();
+  const onSubmit = (e) => {
+    e.preventDefault();
+    props.login(username, password);
+  };
 
+  if (props.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
+  return (
+    <div className={classes.loginContainer}>
+      <Card className={classes.loginCard}>
+        <CardContent>
+          <form onSubmit={onSubmit}>
+            <p>
+              <Typography variant={"h5"} component={"h1"}>
+                <FormattedMessage id={"login.login"} defaultMessage={"Login"} />
+              </Typography>
+            </p>
 
-    const onSubmit = e => {
-        e.preventDefault();
-        props.login(username, password);
-    }
-
-    if (props.isAuthenticated) {
-        return <Redirect to="/"/>
-    }
-    return (
-        <div className={classes.loginContainer}>
-            <Card className={classes.loginCard}>
-                <CardContent>
-                    <form onSubmit={onSubmit}>
-                        <p>
-                            <Typography variant={"h5"} component={"h1"}><FormattedMessage id={"login.login"}
-                                                                                          defaultMessage={"Login"}/></Typography>
-                        </p>
-
-                        {props.errors.length > 0 && (
-                            props.errors.map(error => (
-                                <Alert severity="error" key={error.field}>{error.message}</Alert>
-                            ))
-                        )}
-                        <p>
-                            <TextField
-                                id="username"
-                                label={intl.formatMessage({id: "login.inputs.username", defaultMessage: "Username"})}
-                                variant={"outlined"} className={classes.fullWidth}
-                                onChange={e => setUsername( e.target.value)}/>
-                        </p>
-                        <p>
-                            <TextField
-                                type="password" id="password" variant={"outlined"}
-                                label={intl.formatMessage({id: "login.inputs.password", defaultMessage: "Password"})}
-                                className={classes.fullWidth}
-                                onChange={e => setPassword(e.target.value)}/>
-                        </p>
-                        <p>
-                            <Button type="submit" variant="contained" color={"primary"}><FormattedMessage
-                                id={"login.buttons.login"} defaultMessage={"Login"}/></Button>
-                        </p>
-                    </form>
-                </CardContent>
-            </Card>
-        </div>
-    )
+            {props.errors.length > 0 &&
+              props.errors.map((error) => (
+                <Alert severity="error" key={error.field}>
+                  {error.message}
+                </Alert>
+              ))}
+            <p>
+              <TextField
+                id="username"
+                label={intl.formatMessage({
+                  id: "login.inputs.username",
+                  defaultMessage: "Username",
+                })}
+                variant={"outlined"}
+                className={classes.fullWidth}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </p>
+            <p>
+              <TextField
+                type="password"
+                id="password"
+                variant={"outlined"}
+                label={intl.formatMessage({
+                  id: "login.inputs.password",
+                  defaultMessage: "Password",
+                })}
+                className={classes.fullWidth}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </p>
+            <p>
+              <Button type="submit" variant="contained" color={"primary"}>
+                <FormattedMessage
+                  id={"login.buttons.login"}
+                  defaultMessage={"Login"}
+                />
+              </Button>
+            </p>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
 
-const mapStateToProps = state => {
-    let errors = [];
-    if (state.auth.errors) {
-        errors = Object.keys(state.auth.errors).map(field => {
-            return {field, message: state.auth.errors[field]};
-        });
-    }
-    return {
-        errors,
-        isAuthenticated: state.auth.isAuthenticated
-    };
-}
+const mapStateToProps = (state) => {
+  let errors = [];
+  if (state.auth.errors) {
+    errors = Object.keys(state.auth.errors).map((field) => {
+      return {field, message: state.auth.errors[field]};
+    });
+  }
+  return {
+    errors,
+    isAuthenticated: state.auth.isAuthenticated,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-    return {
-        login: (username, password) => {
-            return dispatch(auth.login(username, password));
-        }
-    };
-}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (username, password) => {
+      return dispatch(auth.login(username, password));
+    },
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
