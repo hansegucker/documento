@@ -17,6 +17,7 @@ class DocumentSerializer(ModelSerializer):
         model = Document
         fields = ("id", "name", "added_at", "is_in_progress")
 
+
 class LoginUserSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()

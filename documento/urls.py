@@ -13,4 +13,4 @@ urlpatterns = [
     path("api/", include(endpoints)),
     path("api/auth/", include("knox.urls")),
     url(r"^", TemplateView.as_view(template_name="index.html")),
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
