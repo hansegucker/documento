@@ -1,10 +1,29 @@
 name: Reformat
 
-on: push
+on:
+  pull_request:
+  push:
 
 jobs:
-  reformat:
-    name: Reformat code base
+  prettier:
+    name: Run prettier
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v2.2
+        with:
+          # This part is also where you can pass other options, for example:
+          prettier_options: --write src/.
+
+  black:
+    name: Run black
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +38,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           # Required
-          commit_message: Reformat source code
+          commit_message: "Reformat source code"
 
           commit_options: '--no-verify --signoff'
 
