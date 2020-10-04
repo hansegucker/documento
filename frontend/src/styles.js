@@ -88,6 +88,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "10px",
     marginBottom: "1px",
   },
+  loading: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 }));
 
 export {useStyles};

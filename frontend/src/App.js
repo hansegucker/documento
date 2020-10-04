@@ -13,6 +13,7 @@ import {IntlProvider} from "react-intl";
 import {useStyles} from "./styles";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 let store = createStore(documentoApp, applyMiddleware(thunk));
 
@@ -29,7 +30,7 @@ function RootContainerComponent(props) {
         {...rest}
         render={(props2) => {
           if (props.auth.isLoading) {
-            return <em>Loading...</em>;
+            return <div className={classes.loading}><div><div><CircularProgress /></div><div>Loading...</div></div></div>;
           } else if (!props.auth.isAuthenticated) {
             return <Redirect to="/login" />;
           } else {
@@ -50,7 +51,7 @@ function RootContainerComponent(props) {
         <div className={props.auth.isAuthenticated ? classes.toolbar : ""} />
         <main
           className={
-            props.auth.isAuthenticated ? classes.content : classes.contentLogin
+            (props.auth.isAuthenticated || props.auth.isLoading) ? classes.content : classes.contentLogin
           }>
           <Switch>
             <PrivateRoute exact path={"/"} component={Dashboard} />
