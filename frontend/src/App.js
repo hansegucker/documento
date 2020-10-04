@@ -30,7 +30,16 @@ function RootContainerComponent(props) {
         {...rest}
         render={(props2) => {
           if (props.auth.isLoading) {
-            return <div className={classes.loading}><div><div><CircularProgress /></div><div>Loading...</div></div></div>;
+            return (
+              <div className={classes.loading}>
+                <div>
+                  <div>
+                    <CircularProgress />
+                  </div>
+                  <div>Loading...</div>
+                </div>
+              </div>
+            );
           } else if (!props.auth.isAuthenticated) {
             return <Redirect to="/login" />;
           } else {
@@ -51,7 +60,9 @@ function RootContainerComponent(props) {
         <div className={props.auth.isAuthenticated ? classes.toolbar : ""} />
         <main
           className={
-            (props.auth.isAuthenticated || props.auth.isLoading) ? classes.content : classes.contentLogin
+            props.auth.isAuthenticated || props.auth.isLoading
+              ? classes.content
+              : classes.contentLogin
           }>
           <Switch>
             <PrivateRoute exact path={"/"} component={Dashboard} />
