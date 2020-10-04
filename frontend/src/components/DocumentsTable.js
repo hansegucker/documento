@@ -15,47 +15,60 @@ import {FormattedMessage} from "react-intl";
 
 export default function DocumentsTable(props) {
   const classes = useStyles();
-  return <TableContainer component={Paper}>
-    <Table className={classes.table}>
-      <TableHead>
-        <TableRow>
-          <TableCell>#</TableCell>
-          <TableCell><FormattedMessage id={"documents.headings.title"} defaultMessage={"Title"}/></TableCell>
-          <TableCell align={"right"}><FormattedMessage id={"documents.headings.title"} defaultMessage={"Actions"}/></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {props.documents.map((document, idx) => (
-          <TableRow key={document.id}>
+  return (
+    <TableContainer component={Paper}>
+      <Table className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell>#</TableCell>
             <TableCell>
-              <code>{document.id}</code>
+              <FormattedMessage
+                id={"documents.headings.title"}
+                defaultMessage={"Title"}
+              />
             </TableCell>
-            <TableCell component="th" scope="row">
-              {document.name}
-            </TableCell>
-            <TableCell align="right">
-              <ButtonGroup
-                color="primary"
-                aria-label="outlined primary button group"
-                size="small">
-                <Button
-                  onClick={() => props.editDocument({...document, idx})}>
-                  <Edit />
-                </Button>
-                <Button onClick={() => props.deleteDocument({...document, idx})}>
-                  <Delete />
-                </Button>
-              </ButtonGroup>
+            <TableCell align={"right"}>
+              <FormattedMessage
+                id={"documents.headings.title"}
+                defaultMessage={"Actions"}
+              />
             </TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>;
+        </TableHead>
+        <TableBody>
+          {props.documents.map((document, idx) => (
+            <TableRow key={document.id}>
+              <TableCell>
+                <code>{document.id}</code>
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {document.name}
+              </TableCell>
+              <TableCell align="right">
+                <ButtonGroup
+                  color="primary"
+                  aria-label="outlined primary button group"
+                  size="small">
+                  <Button
+                    onClick={() => props.editDocument({...document, idx})}>
+                    <Edit />
+                  </Button>
+                  <Button
+                    onClick={() => props.deleteDocument({...document, idx})}>
+                    <Delete />
+                  </Button>
+                </ButtonGroup>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 }
 
 DocumentsTable.propTypes = {
   editDocument: PropTypes.func.isRequired,
   deleteDocument: PropTypes.func.isRequired,
-  documents: PropTypes.arrayOf(PropTypes.object).isRequired
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

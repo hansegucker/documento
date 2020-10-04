@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
 export default function DocumentsForm(props) {
   const intl = useIntl();
 
-
   React.useEffect(() => {
     if (props.document) {
       setName(props.document.name);
@@ -37,56 +36,57 @@ export default function DocumentsForm(props) {
     props.closeDialog();
   };
 
-  return <Dialog open={props.open} onClose={handleCancel}>
-    <form onSubmit={handleSave}>
-      <DialogTitle>
-        {props.edit ? (
-          <FormattedMessage
-            id={"documents.headings.editDocument"}
-            defaultMessage={"Edit document"}
-          />
-        ) : (
-          <FormattedMessage
-            id={"documents.headings.addDocument"}
-            defaultMessage={"Add a new document"}
-          />
-        )}
-      </DialogTitle>
-      <DialogContent>
-        <div>
-          <TextField
-            label={intl.formatMessage({
-              id: "documents.labels.title",
-              defaultMessage: "Title"
-            })}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            variant={"outlined"}
-          />
-        </div>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCancel} color="danger">
-          <FormattedMessage
-            id={"documents.buttons.cancel"}
-            defaultMessage={"Cancel"}
-          />
-        </Button>
-        <Button type="submit" color="primary">
-          <FormattedMessage
-            id={"documents.buttons.save"}
-            defaultMessage={"Save document"}
-          />
-        </Button>
-      </DialogActions>
-    </form>
-  </Dialog>;
+  return (
+    <Dialog open={props.open} onClose={handleCancel}>
+      <form onSubmit={handleSave}>
+        <DialogTitle>
+          {props.edit ? (
+            <FormattedMessage
+              id={"documents.headings.editDocument"}
+              defaultMessage={"Edit document"}
+            />
+          ) : (
+            <FormattedMessage
+              id={"documents.headings.addDocument"}
+              defaultMessage={"Add a new document"}
+            />
+          )}
+        </DialogTitle>
+        <DialogContent>
+          <div>
+            <TextField
+              label={intl.formatMessage({
+                id: "documents.labels.title",
+                defaultMessage: "Title",
+              })}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              variant={"outlined"}
+            />
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="danger">
+            <FormattedMessage
+              id={"documents.buttons.cancel"}
+              defaultMessage={"Cancel"}
+            />
+          </Button>
+          <Button type="submit" color="primary">
+            <FormattedMessage
+              id={"documents.buttons.save"}
+              defaultMessage={"Save document"}
+            />
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
+  );
 }
 
-
 DocumentsForm.defaults = {
-  edit: false
+  edit: false,
 };
 DocumentsForm.propTypes = {
   closeDialog: PropTypes.func.isRequired,
@@ -94,5 +94,5 @@ DocumentsForm.propTypes = {
   addDocument: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   edit: PropTypes.bool,
-  document: PropTypes.object
+  document: PropTypes.object,
 };
