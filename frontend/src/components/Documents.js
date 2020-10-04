@@ -48,18 +48,20 @@ function Documents(props) {
         </Alert>
       </Snackbar>
 
-      <DocumentsForm closeDialog={() => setFormDialog({open: false, edit: false})}
-                     open={formDialog.open}
-                     edit={formDialog.edit}
-                     document={formDialog.document}
-                     updateDocument={(document, name) => {
-                       props.updateDocument(document.idx, name);
-                       setSnackbar("success");
-                     }}
-                     addDocument={(name) => {
-                       props.addDocument(name);
-                       setSnackbar("success");
-                     }} />
+      <DocumentsForm
+        closeDialog={() => setFormDialog({open: false, edit: false})}
+        open={formDialog.open}
+        edit={formDialog.edit}
+        document={formDialog.document}
+        updateDocument={(document, name) => {
+          props.updateDocument(document.idx, name);
+          setSnackbar("success");
+        }}
+        addDocument={(name) => {
+          props.addDocument(name);
+          setSnackbar("success");
+        }}
+      />
 
       <Card className={classes.cardMediaLeft + " " + classes.marginBottom}>
         <CardMedia image="/static/documents.jpg" style={{width: "30%"}} />
@@ -83,8 +85,11 @@ function Documents(props) {
         Add document
       </Button>
 
-      <DocumentsTable editDocument={openEditDocument} deleteDocument={(document) => props.deleteDocument(document.idx)}
-                      documents={props.documents} />
+      <DocumentsTable
+        editDocument={openEditDocument}
+        deleteDocument={(document) => props.deleteDocument(document.idx)}
+        documents={props.documents}
+      />
     </div>
   );
 }
@@ -92,7 +97,7 @@ function Documents(props) {
 const mapStateToProps = (state) => {
   return {
     documents: state.documents,
-    user: state.auth.user
+    user: state.auth.user,
   };
 };
 
@@ -110,7 +115,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteDocument: (idx) => {
       return dispatch(documents.deleteDocument(idx));
     },
-    logout: () => dispatch(auth.logout())
+    logout: () => dispatch(auth.logout()),
   };
 };
 
