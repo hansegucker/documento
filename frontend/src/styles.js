@@ -91,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
   loading: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 }));
 
 export {useStyles};
