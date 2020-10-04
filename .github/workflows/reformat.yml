@@ -13,13 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
 
       - name: Prettify code
         uses: creyD/prettier_action@v2.2
         with:
-          # This part is also where you can pass other options, for example:
+          commit_message: "Prettify code using prettier"
           prettier_options: --write frontend/**/*.{js,jsx,html,css,json,ts,tsx}
 
   black:
@@ -29,6 +28,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Run Black
         uses: lgeiger/black-action@master
@@ -38,7 +39,7 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           # Required
-          commit_message: "Reformat source code"
+          commit_message: "Reformat code using black"
 
           commit_options: '--no-verify --signoff'
 
