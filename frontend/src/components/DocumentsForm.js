@@ -7,9 +7,13 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import React, {useState} from "react";
 import PropTypes from "prop-types";
+import {useStyles} from "../styles";
+import {CheckCircle, CloudUpload} from "@material-ui/icons";
+import Alert from "@material-ui/lab/Alert";
 
 export default function DocumentsForm(props) {
   const intl = useIntl();
+  const classes = useStyles();
 
   React.useEffect(() => {
     if (props.document) {
@@ -18,7 +22,8 @@ export default function DocumentsForm(props) {
   }, [props.document]);
 
   const [name, setName] = useState("");
-  console.log(name);
+  const [filename, setFilename] = useState("");
+  const [file, setFile] = useState(null);
 
   const handleCancel = (e) => {
     props.closeDialog();
@@ -30,7 +35,7 @@ export default function DocumentsForm(props) {
     if (props.edit) {
       props.updateDocument(props.document, name);
     } else {
-      props.addDocument(name);
+      props.addDocument(name, file);
     }
     setName("");
     props.closeDialog();
@@ -53,7 +58,7 @@ export default function DocumentsForm(props) {
           )}
         </DialogTitle>
         <DialogContent>
-          <div>
+          <div className={classes.marginBottomSmall}>
             <TextField
               label={intl.formatMessage({
                 id: "documents.labels.title",
@@ -65,6 +70,40 @@ export default function DocumentsForm(props) {
               variant={"outlined"}
             />
           </div>
+          {!props.edit ? (
+            <div>
+              <Button variant="outlined" component="label">
+                <CloudUpload />
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    setFilename(e.target.value.split("\\").pop());
+                    setFile(e.target.files[0]);
+                  }}
+                  className={classes.fileInput}
+                />
+              </Button>
+              <span className={classes.fileLabel}>{filename}</span>
+            </div>
+          ) : (
+            <div>
+              <p>
+                <CheckCircle className={classes.greenIcon} />
+                <FormattedMessage
+                  id={"documents.texts.fileUploaded"}
+                  defaultMessage={"File uploaded"}
+                />
+              </p>
+              <Alert severity={"warning"}>
+                <FormattedMessage
+                  id={"documents.texts.fileNoChange"}
+                  defaultMessage={
+                    "You can't change the assigned file – that's a case for a new document."
+                  }
+                />
+              </Alert>
+            </div>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel} color="danger">

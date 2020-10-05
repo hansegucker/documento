@@ -15,12 +15,16 @@ export const fetchDocuments = () => {
   };
 };
 
-export const addDocument = (name) => {
+export const addDocument = (name, file) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
-    let body = JSON.stringify({name});
+    delete headers["Content-Type"];
 
-    return fetch("/api/documents/", {headers, method: "POST", body})
+    let form_data = new FormData();
+    form_data.append("name", name);
+    form_data.append("file", file, file.name);
+
+    return fetch("/api/documents/", {headers, method: "POST", body: form_data})
       .then(catchServerErrors)
       .then((res) => {
         if (res.status === 201) {

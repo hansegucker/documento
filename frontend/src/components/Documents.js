@@ -57,8 +57,8 @@ function Documents(props) {
           props.updateDocument(document.idx, name);
           setSnackbar("success");
         }}
-        addDocument={(name) => {
-          props.addDocument(name);
+        addDocument={(name, file) => {
+          props.addDocument(name, file);
           setSnackbar("success");
         }}
       />
@@ -106,8 +106,8 @@ const mapDispatchToProps = (dispatch) => {
     fetchDocuments: () => {
       return dispatch(documents.fetchDocuments());
     },
-    addDocument: (name) => {
-      return dispatch(documents.addDocument(name));
+    addDocument: (name, file) => {
+      return dispatch(documents.addDocument(name, file));
     },
     updateDocument: (idx, name) => {
       return dispatch(documents.updateDocument(idx, name));

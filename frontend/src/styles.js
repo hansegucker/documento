@@ -1,5 +1,6 @@
 import {makeStyles} from "@material-ui/core/styles";
 import {drawerWidth} from "./components/Drawer";
+import {green} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,6 +93,17 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  fileInput: {
+    display: "none",
+  },
+  fileLabel: {
+    marginLeft: "10px",
+  },
+  greenIcon: {
+    color: green[500],
+    float: "left",
+    marginRight: "10px",
   },
 }));
 
