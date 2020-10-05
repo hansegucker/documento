@@ -58,6 +58,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "Deletes old files."
+name = "django-cleanup"
+optional = false
+python-versions = "*"
+version = "5.1.0"
+
+[[package]]
+category = "main"
 description = "alias."
 name = "django-rest-framework"
 optional = false
@@ -132,7 +140,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "0.3.1"
 
 [metadata]
-content-hash = "81320ae1b415548c661d2e481fd4c0c9a09dac51ac3594c59a0f161bef4affce"
+content-hash = "171bc7c37bcde9b5c64a77911db1fd469f88f15ecc65953de1a75ee086efcd35"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -205,6 +213,10 @@ cryptography = [
 django = [
     {file = "Django-3.1.1-py3-none-any.whl", hash = "sha256:b5fbb818e751f660fa2d576d9f40c34a4c615c8b48dd383f5216e609f383371f"},
     {file = "Django-3.1.1.tar.gz", hash = "sha256:59c8125ca873ed3bdae9c12b146fbbd6ed8d0f743e4cf5f5817af50c51f1fc2f"},
+]
+django-cleanup = [
+    {file = "django-cleanup-5.1.0.tar.gz", hash = "sha256:8976aec12a22913afb3d1fcb541b1aedde2f5ec243e4260c5ff78bb6aa75a089"},
+    {file = "django_cleanup-5.1.0-py2.py3-none-any.whl", hash = "sha256:71e098c7d9ac3f3da40b95cff9c0bc51218d40ef419261232f46ba3141c50acc"},
 ]
 django-rest-framework = [
     {file = "django-rest-framework-0.1.0.tar.gz", hash = "sha256:47a8f496fa69e3b6bd79f68dd7a1527d907d6b77f009e9db7cf9bb21cc565e4a"},
