@@ -15,7 +15,7 @@ class UserSerializer(ModelSerializer):
 class DocumentSerializer(ModelSerializer):
     class Meta:
         model = Document
-        fields = ("id", "name", "added_at", "is_in_progress")
+        fields = ("id", "name", "added_at", "is_in_progress", "file")
 
 
 class LoginUserSerializer(serializers.Serializer):

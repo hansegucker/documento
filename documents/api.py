@@ -1,6 +1,7 @@
 from knox.models import AuthToken
 from rest_framework import permissions
 from rest_framework.generics import GenericAPIView, RetrieveAPIView
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -13,6 +14,7 @@ from documents.serializers import (
 
 
 class DocumentViewSet(ModelViewSet):
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
     queryset = Document.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = DocumentSerializer
