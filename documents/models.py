@@ -14,6 +14,7 @@ class Document(models.Model):
     file = models.FileField(
         _("PDF file"),
         validators=[FileExtensionValidator(allowed_extensions=["pdf"])],
+        upload_to=rename_document_pdf,
         null=True,
         blank=True,
     )

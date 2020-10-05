@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "documents.apps.DocumentsConfig",
     "rest_framework",
     "knox",
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 MIDDLEWARE = [
