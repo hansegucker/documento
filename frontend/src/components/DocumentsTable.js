@@ -29,7 +29,7 @@ export default function DocumentsTable(props) {
             </TableCell>
             <TableCell align={"right"}>
               <FormattedMessage
-                id={"documents.headings.title"}
+                id={"documents.headings.actions"}
                 defaultMessage={"Actions"}
               />
             </TableCell>
