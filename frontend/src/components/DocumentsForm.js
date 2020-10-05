@@ -18,7 +18,11 @@ export default function DocumentsForm(props) {
   React.useEffect(() => {
     if (props.document) {
       setName(props.document.name);
+    } else {
+      setName("");
     }
+    setFilename("");
+    setFile("");
   }, [props.document]);
 
   const [name, setName] = useState("");
