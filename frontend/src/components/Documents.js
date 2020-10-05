@@ -47,6 +47,17 @@ function Documents(props) {
           />
         </Alert>
       </Snackbar>
+      <Snackbar
+        open={snackbar === "success_delete"}
+        autoHideDuration={3000}
+        onClose={closeSnackbar}>
+        <Alert onClose={closeSnackbar} severity="success">
+          <FormattedMessage
+            id={"documents.texts.documentDeleted"}
+            defaultMessage={"The document was deleted successfully."}
+          />
+        </Alert>
+      </Snackbar>
 
       <DocumentsForm
         closeDialog={() => setFormDialog({open: false, edit: false})}
@@ -87,7 +98,10 @@ function Documents(props) {
 
       <DocumentsTable
         editDocument={openEditDocument}
-        deleteDocument={(document) => props.deleteDocument(document.idx)}
+        deleteDocument={(document) => {
+          props.deleteDocument(document.idx);
+          setSnackbar("success_delete");
+        }}
         documents={props.documents}
       />
     </div>
