@@ -41,23 +41,15 @@ class Document(models.Model):
     def barcode_record(self):
         return {"barcode": self.barcode, "name": self.name}
 
-    # def generate_barcode_label(self):
-    #     from blabel import LabelWriter
-    #
-    #     label_writer = LabelWriter(
-    #         "barcode_template.html", default_stylesheets=("barcode_style.css",),
-    #     )
-    #     records = [self.barcode_record]
-    #
-    #     label_writer.write_labels(records, target="barcode.pdf")
+    def generate_barcode_label(self):
+        from blabel import LabelWriter
 
-    # def print_barcode_label(self):
-    #     self.generate_barcode_label()
-    #     subprocess.Popen(
-    #         ["lp", "-d", PRINTER_NAME, "barcode.pdf"],
-    #         stderr=subprocess.DEVNULL,
-    #         stdout=subprocess.DEVNULL,
-    #     )
+        label_writer = LabelWriter(
+            "barcode_template.html", default_stylesheets=("barcode_style.css",),
+        )
+        records = [self.barcode_record]
+
+        return label_writer.write_labels(records, target=None)
 
     @property
     def slug(self):
@@ -65,9 +57,3 @@ class Document(models.Model):
 
     def generate_filename(self):
         return f"{slugify(self.slug)}.pdf"
-
-    # def generate_path(self):
-    #     return os.path.join(os.getcwd(), "documents", self.generate_filename())
-    #
-    # def generate_tmp_path(self, count: int):
-    #     return os.path.join("/tmp", f"dms-{self.id}-{count}.pdf")

@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.urls import reverse
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -13,9 +14,14 @@ class UserSerializer(ModelSerializer):
 
 
 class DocumentSerializer(ModelSerializer):
+    barcode_label = serializers.SerializerMethodField()
+
+    def get_barcode_label(self, obj):
+        return reverse("barcode_label", args=[obj.pk])
+
     class Meta:
         model = Document
-        fields = ("id", "name", "added_at", "is_in_progress", "file")
+        fields = ("id", "name", "added_at", "is_in_progress", "file", "barcode_label")
 
 
 class LoginUserSerializer(serializers.Serializer):
