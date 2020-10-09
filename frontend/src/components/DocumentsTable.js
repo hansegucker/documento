@@ -56,12 +56,10 @@ export default function DocumentsTable(props) {
                   color="primary"
                   aria-label="outlined primary button group"
                   size="small">
-                  <Button
-                    onClick={() => props.editDocument(document)}>
+                  <Button onClick={() => props.editDocument(document)}>
                     <Edit />
                   </Button>
-                  <Button
-                    onClick={() => props.deleteDocument(document)}>
+                  <Button onClick={() => props.deleteDocument(document)}>
                     <Delete />
                   </Button>
                 </ButtonGroup>
