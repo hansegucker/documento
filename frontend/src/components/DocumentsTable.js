@@ -6,17 +6,19 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import {Delete, Edit} from "@material-ui/icons";
+import {CropFree, Delete, Edit} from "@material-ui/icons";
 import TableContainer from "@material-ui/core/TableContainer";
 import React from "react";
 import {useStyles} from "../styles";
 import PropTypes from "prop-types";
-import {FormattedMessage} from "react-intl";
+import {FormattedMessage, useIntl} from "react-intl";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@material-ui/core/Link";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function DocumentsTable(props) {
   const classes = useStyles();
+  const intl = useIntl();
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table}>
@@ -56,12 +58,33 @@ export default function DocumentsTable(props) {
                   color="primary"
                   aria-label="outlined primary button group"
                   size="small">
-                  <Button onClick={() => props.editDocument(document)}>
-                    <Edit />
-                  </Button>
-                  <Button onClick={() => props.deleteDocument(document)}>
-                    <Delete />
-                  </Button>
+                  <Tooltip
+                    title={intl.formatMessage({
+                      id: "documents.buttons.barcodeLabel",
+                      defaultMessage: "Barcode label as PDF",
+                    })}>
+                    <Button href={document.barcode_label}>
+                      <CropFree />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip
+                    title={intl.formatMessage({
+                      id: "documents.buttons.edit",
+                      defaultMessage: "Edit document",
+                    })}>
+                    <Button onClick={() => props.editDocument(document)}>
+                      <Edit />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip
+                    title={intl.formatMessage({
+                      id: "documents.buttons.delete",
+                      defaultMessage: "Delete document",
+                    })}>
+                    <Button onClick={() => props.deleteDocument(document)}>
+                      <Delete />
+                    </Button>
+                  </Tooltip>
                 </ButtonGroup>
               </TableCell>
             </TableRow>

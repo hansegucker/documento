@@ -105,6 +105,17 @@ const useStyles = makeStyles((theme) => ({
     float: "left",
     marginRight: "10px",
   },
+  actionButtonsDocument: {
+    [theme.breakpoints.up("sm")]: {
+      float: "right",
+      marginLeft: "30px",
+    },
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      justifyContent: "center",
+      margin: "10px",
+    },
+  },
 }));
 
 export {useStyles};
