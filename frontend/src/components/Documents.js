@@ -93,7 +93,10 @@ function Documents(props) {
         startIcon={<Add />}
         onClick={openAddDocument}
         className={classes.marginBottomSmall}>
-        Add document
+        <FormattedMessage
+          id={"documents.buttons.addDocument"}
+          defaultMessage={"Add document"}
+        />
       </Button>
 
       <DocumentsTable

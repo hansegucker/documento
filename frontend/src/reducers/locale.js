@@ -1,8 +1,13 @@
 import {locales} from "../helper";
 
-const initialState = locales["en"];
+const browserLang = navigator.language || navigator.userLanguage;
 
-export default function locale(state = initialState, action) {
+let defaultLocale = locales["en"];
+if (browserLang in locales) {
+  defaultLocale = locales[browserLang];
+}
+
+export default function locale(state = defaultLocale, action) {
   switch (action.type) {
     case "SWITCH_LOCALE":
       return {

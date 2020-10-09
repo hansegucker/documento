@@ -87,7 +87,14 @@ export default function DocumentsForm(props) {
                   className={classes.fileInput}
                 />
               </Button>
-              <span className={classes.fileLabel}>{filename}</span>
+              <span className={classes.fileLabel}>
+                {filename || (
+                  <FormattedMessage
+                    id={"documents.texts.noFile"}
+                    defaultMessage={"No file selected."}
+                  />
+                )}
+              </span>
             </div>
           ) : (
             <div>
