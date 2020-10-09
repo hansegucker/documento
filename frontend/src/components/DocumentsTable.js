@@ -12,6 +12,8 @@ import React from "react";
 import {useStyles} from "../styles";
 import PropTypes from "prop-types";
 import {FormattedMessage} from "react-intl";
+import {Link as RouterLink} from "react-router-dom";
+import Link from "@material-ui/core/Link";
 
 export default function DocumentsTable(props) {
   const classes = useStyles();
@@ -42,7 +44,12 @@ export default function DocumentsTable(props) {
                 <code>{document.id}</code>
               </TableCell>
               <TableCell component="th" scope="row">
-                {document.name}
+                <Link
+                  component={RouterLink}
+                  to={`/documents/${idx}`}
+                  color={"inherit"}>
+                  {document.name}
+                </Link>
               </TableCell>
               <TableCell align="right">
                 <ButtonGroup

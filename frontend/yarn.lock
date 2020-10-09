@@ -8285,6 +8285,11 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+pdfobject@^2.1.1:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/pdfobject/-/pdfobject-2.2.4.tgz#ccb3c191129298a471e9ccb59c88a3ee0b7c7530"
+  integrity sha512-r6Rw9CQWsrY6uqmKvlgFNoupmuRbSt9EsG0sZhSAy3cIk4WgOXyAVmebFSlLhqj6gA5NIEXL3lSEbwOOYfdUvw==
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -9408,6 +9413,13 @@ react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-i
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-pdfobject@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-pdfobject/-/react-pdfobject-1.1.1.tgz#a598483c5a9cea4c55e9ba04d3331de345def679"
+  integrity sha512-qdSZQd6ophPGdW58lThF0tEkMRUuqnq2NLw+vHWb268QFcb/X2Ich2z6u7tac8DCgc0qCw5x2q0Sg98NrpWHlQ==
+  dependencies:
+    pdfobject "^2.1.1"
 
 react-redux@^7.2.1:
   version "7.2.1"
