@@ -1,20 +1,23 @@
-const initialState = [];
+const initialState = {};
 
 export default function documents(state = initialState, action) {
-  let documentList = state.slice();
+  let documentObj = {...state};
   switch (action.type) {
     case "FETCH_DOCUMENTS":
-      return [...action.documents];
+      let newState = {};
+      for (let document of action.documents) {
+        newState[document.id] = document;
+      }
+      return newState;
     case "ADD_DOCUMENT":
-      return [...state, action.document];
+      return {...state, [action.document.id]: action.document};
     case "UPDATE_DOCUMENT":
-      let documentToUpdate = documentList[action.idx];
+      let documentToUpdate = documentObj[action.document.id];
       documentToUpdate.name = action.document.name;
-      documentList.splice(action.idx, 1, documentToUpdate);
-      return documentList;
+      return {...state, [action.document.id]: documentToUpdate};
     case "DELETE_DOCUMENT":
-      documentList.splice(action.idx, 1);
-      return documentList;
+      delete documentObj[action.id];
+      return documentObj;
     default:
       return state;
   }

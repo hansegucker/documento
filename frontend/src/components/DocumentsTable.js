@@ -38,7 +38,7 @@ export default function DocumentsTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.documents.map((document, idx) => (
+          {Object.values(props.documents).map((document) => (
             <TableRow key={document.id}>
               <TableCell>
                 <code>{document.id}</code>
@@ -46,7 +46,7 @@ export default function DocumentsTable(props) {
               <TableCell component="th" scope="row">
                 <Link
                   component={RouterLink}
-                  to={`/documents/${idx}`}
+                  to={`/documents/${document.id}`}
                   color={"inherit"}>
                   {document.name}
                 </Link>
@@ -57,11 +57,11 @@ export default function DocumentsTable(props) {
                   aria-label="outlined primary button group"
                   size="small">
                   <Button
-                    onClick={() => props.editDocument({...document, idx})}>
+                    onClick={() => props.editDocument(document)}>
                     <Edit />
                   </Button>
                   <Button
-                    onClick={() => props.deleteDocument({...document, idx})}>
+                    onClick={() => props.deleteDocument(document)}>
                     <Delete />
                   </Button>
                 </ButtonGroup>

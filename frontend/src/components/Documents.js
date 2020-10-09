@@ -65,7 +65,7 @@ function Documents(props) {
         edit={formDialog.edit}
         document={formDialog.document}
         updateDocument={(document, name) => {
-          props.updateDocument(document.idx, name);
+          props.updateDocument(document.id, name);
           setSnackbar("success");
         }}
         addDocument={(name, file) => {
@@ -99,7 +99,7 @@ function Documents(props) {
       <DocumentsTable
         editDocument={openEditDocument}
         deleteDocument={(document) => {
-          props.deleteDocument(document.idx);
+          props.deleteDocument(document.id);
           setSnackbar("success_delete");
         }}
         documents={props.documents}

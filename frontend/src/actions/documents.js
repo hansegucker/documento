@@ -38,13 +38,12 @@ export const addDocument = (name, file) => {
   };
 };
 
-export const updateDocument = (idx, name) => {
+export const updateDocument = (id, name) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
     let body = JSON.stringify({name});
-    let documentID = getState().documents[idx].id;
 
-    return fetch(`/api/documents/${documentID}/`, {
+    return fetch(`/api/documents/${id}/`, {
       headers,
       method: "PUT",
       body,
@@ -55,7 +54,6 @@ export const updateDocument = (idx, name) => {
           return dispatch({
             type: "UPDATE_DOCUMENT",
             document: res.data,
-            idx,
           });
         }
         catchAPIErrors(res, dispatch);
@@ -63,12 +61,11 @@ export const updateDocument = (idx, name) => {
   };
 };
 
-export const deleteDocument = (idx) => {
+export const deleteDocument = (id) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
-    let documentID = getState().documents[idx].id;
 
-    return fetch(`/api/documents/${documentID}/`, {headers, method: "DELETE"})
+    return fetch(`/api/documents/${id}/`, {headers, method: "DELETE"})
       .then((res) => {
         if (res.status === 204) {
           return {status: res.status, data: {}};
@@ -85,7 +82,7 @@ export const deleteDocument = (idx) => {
         if (res.status === 204) {
           return dispatch({
             type: "DELETE_DOCUMENT",
-            idx,
+            id,
           });
         }
         catchAPIErrors(res, dispatch);
