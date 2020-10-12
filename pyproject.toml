@@ -13,6 +13,12 @@ django-rest-knox = "^4.1.0"
 django-webpack-loader = "^0.7.0"
 django-cleanup = "^5.1.0"
 blabel = "^0.1.4"
+celery = "<5.0.0"
+django-celery-results = "^1.2.1"
+celery-progress = "^0.0.12"
+PyPDF2 = "^1.26.0"
+pytesseract = "^0.3.6"
+pdf2image = "^1.14.0"
 
 [tool.poetry.dev-dependencies]
 

@@ -1,5 +1,6 @@
 from knox.models import AuthToken
 from rest_framework import permissions
+from rest_framework.decorators import action
 from rest_framework.generics import GenericAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
@@ -11,6 +12,7 @@ from documents.serializers import (
     LoginUserSerializer,
     UserSerializer,
 )
+from documents.tasks import ocr_task
 
 
 class DocumentViewSet(ModelViewSet):
@@ -18,6 +20,14 @@ class DocumentViewSet(ModelViewSet):
     queryset = Document.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = DocumentSerializer
+
+    @action(detail=True, methods=["post"])
+    def do_ocr(self, request, pk=None):
+        document = self.get_object()
+
+        result = ocr_task.delay(document.id)
+
+        return Response({"task_id": result.id})
 
 
 class LoginAPI(GenericAPIView):
