@@ -1,10 +1,12 @@
-from django.urls import path, include
+from django.urls import include, path
+
 from rest_framework import routers
 
-from .api import DocumentViewSet, LoginAPI, UserAPI
+from .api import DocumentViewSet, LoginAPI, PrintJobViewSet, UserAPI
 
 router = routers.DefaultRouter()
 router.register("documents", DocumentViewSet)
+router.register("print_jobs", PrintJobViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

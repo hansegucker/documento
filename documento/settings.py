@@ -120,7 +120,11 @@ WEBPACK_LOADER = {
 }
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("knox.auth.TokenAuthentication",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "knox.auth.TokenAuthentication",
+    ),
 }
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")

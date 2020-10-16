@@ -9,6 +9,11 @@ def rename_document_pdf(instance: "Document", filename: str):
     return instance.generate_filename()
 
 
+class Report(models.TextChoices):
+    BARCODE_LABEL = "barcode_label", _("Barcode label")
+    INFO_PAPER = "info_paper", _("Information paper with barcode")
+
+
 class Document(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Document name"))
     file = models.FileField(
@@ -57,3 +62,27 @@ class Document(models.Model):
 
     def generate_filename(self):
         return f"{slugify(self.slug)}.pdf"
+
+    def print_report(self, report: Report) -> "PrintJob":
+        job = PrintJob.objects.create(document=self, report=report)
+        return job
+
+
+class PrintJob(models.Model):
+    report = models.CharField(
+        max_length=255, verbose_name=_("Report to print"), choices=Report.choices
+    )
+    document = models.ForeignKey(
+        Document,
+        on_delete=models.CASCADE,
+        related_name="print_jobs",
+        verbose_name=_("Document to print"),
+    )
+    is_printed = models.BooleanField(default=False, verbose_name=_("Printed"))
+    printed_at = models.DateTimeField(
+        blank=True, null=True, verbose_name=_("Printed at")
+    )
+
+    class Meta:
+        verbose_name = _("Print job")
+        verbose_name_plural = _("Print jobs")
