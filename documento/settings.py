@@ -109,7 +109,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 if DEBUG:
-    WEBPACK_STATS_FILE = "webpack-stats.prod.json"
+    WEBPACK_STATS_FILE = "webpack-stats.dev.json"
 else:
     WEBPACK_STATS_FILE = "webpack-stats.prod.json"
 WEBPACK_LOADER = {

@@ -41,7 +41,7 @@ services:
       - /srv/documento/media:/var/www/media
     environment:
       - DOCUMENTO_SECRET_KEY=tirnotaeron7sd8745289756NuRSOEasdDRrtiansetiadtirnDTNTOrnae
-      - DOCUMENTO_DEBUG=1
+      - DOCUMENTO_DEBUG=0
       - DOCUMENTO_DOCKER=1
       - DOCUMENTO_DB_ENGINE=django.db.backends.mysql
       - DOCUMENTO_DB_NAME=documento
