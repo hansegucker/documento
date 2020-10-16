@@ -15,13 +15,14 @@ export const fetchDocuments = () => {
   };
 };
 
-export const addDocument = (name, file) => {
+export const addDocument = (name, file, category) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
     delete headers["Content-Type"];
 
     let form_data = new FormData();
     form_data.append("name", name);
+    form_data.append("category", category);
     form_data.append("file", file, file.name);
 
     return fetch("/api/documents/", {headers, method: "POST", body: form_data})
@@ -38,10 +39,10 @@ export const addDocument = (name, file) => {
   };
 };
 
-export const updateDocument = (id, name) => {
+export const updateDocument = (id, name, category) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
-    let body = JSON.stringify({name});
+    let body = JSON.stringify({name, category});
 
     return fetch(`/api/documents/${id}/`, {
       headers,

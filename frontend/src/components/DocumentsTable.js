@@ -15,8 +15,10 @@ import {FormattedMessage, useIntl} from "react-intl";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import Tooltip from "@material-ui/core/Tooltip";
+import {connect} from "react-redux";
+import CategoryPath from "./CategoryPath";
 
-export default function DocumentsTable(props) {
+function DocumentsTable(props) {
   const classes = useStyles();
   const intl = useIntl();
   return (
@@ -25,6 +27,12 @@ export default function DocumentsTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>#</TableCell>
+            <TableCell>
+              <FormattedMessage
+                id={"documents.headings.category"}
+                defaultMessage={"Category"}
+              />
+            </TableCell>
             <TableCell>
               <FormattedMessage
                 id={"documents.headings.title"}
@@ -44,6 +52,17 @@ export default function DocumentsTable(props) {
             <TableRow key={document.id}>
               <TableCell>
                 <code>{document.id}</code>
+              </TableCell>
+              <TableCell>
+                {document.category &&
+                props.categories &&
+                document.category in props.categories ? (
+                  <CategoryPath
+                    category={props.categories[document.category]}
+                  />
+                ) : (
+                  <em>–</em>
+                )}
               </TableCell>
               <TableCell component="th" scope="row">
                 <Link
@@ -100,3 +119,15 @@ DocumentsTable.propTypes = {
   deleteDocument: PropTypes.func.isRequired,
   documents: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
+const mapStateToProps = (state) => {
+  return {
+    categories: state.categories,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DocumentsTable);

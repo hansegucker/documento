@@ -10,6 +10,9 @@ import PropTypes from "prop-types";
 import {useStyles} from "../styles";
 import {CheckCircle, CloudUpload} from "@material-ui/icons";
 import Alert from "@material-ui/lab/Alert";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import CategorySelect from "./CategorySelect";
 
 export default function DocumentsForm(props) {
   const intl = useIntl();
@@ -23,11 +26,17 @@ export default function DocumentsForm(props) {
     }
     setFilename("");
     setFile("");
+    if (props.document && props.document.category) {
+      setCategory(props.document.category);
+    } else {
+      setCategory(null);
+    }
   }, [props.document]);
 
   const [name, setName] = useState("");
   const [filename, setFilename] = useState("");
   const [file, setFile] = useState(null);
+  const [category, setCategory] = useState(null);
 
   const handleCancel = (e) => {
     props.closeDialog();
@@ -37,9 +46,9 @@ export default function DocumentsForm(props) {
     e.preventDefault();
     // console.log(formDialog);
     if (props.edit) {
-      props.updateDocument(props.document, name);
+      props.updateDocument(props.document, name, category);
     } else {
-      props.addDocument(name, file);
+      props.addDocument(name, file, category);
     }
     setName("");
     props.closeDialog();
@@ -63,11 +72,32 @@ export default function DocumentsForm(props) {
         </DialogTitle>
         <DialogContent>
           <div className={classes.marginBottomSmall}>
+            <FormControl variant="outlined" className={classes.fullWidth}>
+              <InputLabel>
+                <FormattedMessage
+                  id={"documents.labels.category"}
+                  defaultMessage={"Category"}
+                />
+              </InputLabel>
+              <CategorySelect
+                label={
+                  <FormattedMessage
+                    id={"documents.labels.category"}
+                    defaultMessage={"Category"}
+                  />
+                }
+                value={category}
+                onChange={setCategory}
+              />
+            </FormControl>
+          </div>
+          <div className={classes.marginBottomSmall}>
             <TextField
               label={intl.formatMessage({
                 id: "documents.labels.title",
                 defaultMessage: "Title",
               })}
+              className={classes.fullWidth}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required

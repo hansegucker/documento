@@ -13,7 +13,7 @@ import {useStyles} from "../styles";
 import PropTypes from "prop-types";
 import {FormattedMessage, useIntl} from "react-intl";
 import Tooltip from "@material-ui/core/Tooltip";
-import {Breadcrumbs} from "@material-ui/core";
+import CategoryPath from "./CategoryPath";
 
 export default function CategoriesTable(props) {
   const classes = useStyles();
@@ -45,12 +45,7 @@ export default function CategoriesTable(props) {
                 <code>{category.id}</code>
               </TableCell>
               <TableCell component="th" scope="row">
-                <Breadcrumbs>
-                  {category.parents.map((parent) => {
-                    return <span key={parent.id}>{parent.name}</span>;
-                  })}
-                  <span>{category.name}</span>
-                </Breadcrumbs>
+                <CategoryPath category={category} />
               </TableCell>
               <TableCell align="right">
                 <ButtonGroup

@@ -12,9 +12,7 @@ export default function documents(state = initialState, action) {
     case "ADD_DOCUMENT":
       return {...state, [action.document.id]: action.document};
     case "UPDATE_DOCUMENT":
-      let documentToUpdate = documentObj[action.document.id];
-      documentToUpdate.name = action.document.name;
-      return {...state, [action.document.id]: documentToUpdate};
+      return {...state, [action.document.id]: action.document};
     case "DELETE_DOCUMENT":
       delete documentObj[action.id];
       return documentObj;

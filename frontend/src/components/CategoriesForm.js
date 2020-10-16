@@ -8,11 +8,9 @@ import Dialog from "@material-ui/core/Dialog";
 import React, {useState} from "react";
 import PropTypes from "prop-types";
 import {useStyles} from "../styles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import {connect} from "react-redux";
+import CategorySelect from "./CategorySelect";
 
 function CategoriesForm(props) {
   const intl = useIntl();
@@ -83,28 +81,16 @@ function CategoriesForm(props) {
                   defaultMessage={"Parent category"}
                 />
               </InputLabel>
-              <Select
-                value={parent}
-                onChange={(e) => setParent(e.target.value)}
+              <CategorySelect
                 label={
                   <FormattedMessage
                     id={"categories.labels.parent"}
                     defaultMessage={"Parent category"}
                   />
-                }>
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {props.categories
-                  ? Object.values(props.categories).map(function (selCategory) {
-                      return (
-                        <MenuItem value={selCategory.id} key={selCategory.id}>
-                          {selCategory.name}
-                        </MenuItem>
-                      );
-                    })
-                  : ""}
-              </Select>
+                }
+                value={parent}
+                onChange={setParent}
+              />
             </FormControl>
           </div>
         </DialogContent>
@@ -138,14 +124,4 @@ CategoriesForm.propTypes = {
   edit: PropTypes.bool,
   category: PropTypes.object,
 };
-const mapStateToProps = (state) => {
-  return {
-    categories: state.categories,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoriesForm);
+export default CategoriesForm;

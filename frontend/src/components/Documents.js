@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {documents, auth} from "../actions";
+import {documents, auth, categories} from "../actions";
 import {FormattedMessage} from "react-intl";
 import {useStyles} from "../styles";
 import Card from "@material-ui/core/Card";
@@ -24,6 +24,7 @@ function Documents(props) {
   };
   useEffect(() => {
     props.fetchDocuments();
+    props.fetchCategories();
   }, [props.user]);
 
   const openAddDocument = (e) => {
@@ -64,12 +65,12 @@ function Documents(props) {
         open={formDialog.open}
         edit={formDialog.edit}
         document={formDialog.document}
-        updateDocument={(document, name) => {
-          props.updateDocument(document.id, name);
+        updateDocument={(document, name, category) => {
+          props.updateDocument(document.id, name, category);
           setSnackbar("success");
         }}
-        addDocument={(name, file) => {
-          props.addDocument(name, file);
+        addDocument={(name, file, category) => {
+          props.addDocument(name, file, category);
           setSnackbar("success");
         }}
       />
@@ -114,6 +115,7 @@ function Documents(props) {
 const mapStateToProps = (state) => {
   return {
     documents: state.documents,
+    categories: state.categories,
     user: state.auth.user,
   };
 };
@@ -123,14 +125,17 @@ const mapDispatchToProps = (dispatch) => {
     fetchDocuments: () => {
       return dispatch(documents.fetchDocuments());
     },
-    addDocument: (name, file) => {
-      return dispatch(documents.addDocument(name, file));
+    fetchCategories: () => {
+      return dispatch(categories.fetchCategories());
     },
-    updateDocument: (idx, name) => {
-      return dispatch(documents.updateDocument(idx, name));
+    addDocument: (name, file, category) => {
+      return dispatch(documents.addDocument(name, file, category));
     },
-    deleteDocument: (idx) => {
-      return dispatch(documents.deleteDocument(idx));
+    updateDocument: (id, name, category) => {
+      return dispatch(documents.updateDocument(id, name, category));
+    },
+    deleteDocument: (id) => {
+      return dispatch(documents.deleteDocument(id));
     },
     logout: () => dispatch(auth.logout()),
   };
