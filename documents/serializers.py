@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from documents.models import Document, PrintJob
+from documents.models import Category, Document, PrintJob
 from rest_framework import serializers
 from rest_framework.serializers import (HyperlinkedModelSerializer,
                                         ModelSerializer)
@@ -12,6 +12,16 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username")
+
+
+class CategorySerializer(HyperlinkedModelSerializer):
+    parent = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(), required=False
+    )
+    class Meta:
+        model = Category
+        fields = ("id", "url", "parent", "name")
+        depth = 1
 
 
 class DocumentSerializer(HyperlinkedModelSerializer):

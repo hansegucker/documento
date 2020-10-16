@@ -1,8 +1,9 @@
 from django.utils import timezone
 
-from documents.models import Document, PrintJob
-from documents.serializers import (DocumentSerializer, LoginUserSerializer,
-                                   PrintJobSerializer, UserSerializer)
+from documents.models import Category, Document, PrintJob
+from documents.serializers import (CategorySerializer, DocumentSerializer,
+                                   LoginUserSerializer, PrintJobSerializer,
+                                   UserSerializer)
 from knox.models import AuthToken
 from rest_framework import permissions
 from rest_framework.decorators import action
@@ -10,6 +11,12 @@ from rest_framework.generics import GenericAPIView, RetrieveAPIView
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = CategorySerializer
 
 
 class DocumentViewSet(ModelViewSet):

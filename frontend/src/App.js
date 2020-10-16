@@ -1,7 +1,7 @@
 import React, {Component, useEffect} from "react";
 import "./App.css";
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
-import Dashboard from "./components/Documents";
+import Documents from "./components/Documents";
 import NotFound from "./components/NotFound";
 import {applyMiddleware, createStore} from "redux";
 import documentoApp from "./reducers";
@@ -15,6 +15,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DocumentViewer from "./components/DocumentViewer";
+import Categories from "./components/Categories";
 
 let store = createStore(documentoApp, applyMiddleware(thunk));
 
@@ -66,7 +67,8 @@ function RootContainerComponent(props) {
               : classes.contentLogin
           }>
           <Switch>
-            <PrivateRoute exact path={"/"} component={Dashboard} />
+            <PrivateRoute exact path={"/"} component={Documents} />
+            <PrivateRoute exact path={"/categories/"} component={Categories} />
             <PrivateRoute path={"/documents/:id"} component={DocumentViewer} />
             <Route exact path="/login" component={Login} />
             <Route component={NotFound} />

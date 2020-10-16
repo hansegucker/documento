@@ -14,7 +14,34 @@ class Report(models.TextChoices):
     INFO_PAPER = "info_paper", _("Information paper with barcode")
 
 
+class Category(models.Model):
+    parent = models.ForeignKey(
+        "Category",
+        on_delete=models.CASCADE,
+        related_name="children",
+        verbose_name=_("Parent category"),
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
+
+
 class Document(models.Model):
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="documents",
+        verbose_name=_("Category"),
+    )
     name = models.CharField(max_length=255, verbose_name=_("Document name"))
     file = models.FileField(
         _("PDF file"),

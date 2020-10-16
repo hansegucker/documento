@@ -2,9 +2,11 @@ from django.urls import include, path
 
 from rest_framework import routers
 
-from .api import DocumentViewSet, LoginAPI, PrintJobViewSet, UserAPI
+from .api import (CategoryViewSet, DocumentViewSet, LoginAPI, PrintJobViewSet,
+                  UserAPI)
 
 router = routers.DefaultRouter()
+router.register("categories", CategoryViewSet)
 router.register("documents", DocumentViewSet)
 router.register("print_jobs", PrintJobViewSet)
 
