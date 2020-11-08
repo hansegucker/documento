@@ -6,7 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import {CropFree, Delete, Edit} from "@material-ui/icons";
+import {CropFree, Delete, Edit, Print} from "@material-ui/icons";
 import TableContainer from "@material-ui/core/TableContainer";
 import React from "react";
 import {useStyles} from "../styles";
@@ -79,10 +79,19 @@ function DocumentsTable(props) {
                   size="small">
                   <Tooltip
                     title={intl.formatMessage({
-                      id: "documents.buttons.barcodeLabel",
-                      defaultMessage: "Barcode label as PDF",
+                      id: "documents.buttons.infoPage",
+                      defaultMessage: "Print info page",
                     })}>
-                    <Button href={document.barcode_label}>
+                    <Button onClick={() => props.printReport(document.id, "info_page")}>
+                      <Print />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip
+                    title={intl.formatMessage({
+                      id: "documents.buttons.barcodeLabel",
+                      defaultMessage: "Print barcode label",
+                    })}>
+                    <Button onClick={() => props.printReport(document.id, "barcode_label")}>
                       <CropFree />
                     </Button>
                   </Tooltip>
@@ -118,6 +127,7 @@ DocumentsTable.propTypes = {
   editDocument: PropTypes.func.isRequired,
   deleteDocument: PropTypes.func.isRequired,
   documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  printReport: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

@@ -166,3 +166,6 @@ frontend/webpack-stats.prod.json
 
 media/
 static/
+
+barcode-tmp.pdf
+config.json

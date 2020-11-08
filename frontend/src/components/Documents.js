@@ -35,6 +35,15 @@ function Documents(props) {
     setFormDialog({open: true, edit: true, document: document});
   };
 
+  const printReport = (id, report) => {
+    props.printReport(id, report).then(function(res) {
+      console.log("res", res);
+      if (res) {
+        setSnackbar("success_print");
+      }
+    });
+  };
+
   return (
     <div>
       <Snackbar
@@ -56,6 +65,17 @@ function Documents(props) {
           <FormattedMessage
             id={"documents.texts.documentDeleted"}
             defaultMessage={"The document was deleted successfully."}
+          />
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={snackbar === "success_print"}
+        autoHideDuration={3000}
+        onClose={closeSnackbar}>
+        <Alert onClose={closeSnackbar} severity="success">
+          <FormattedMessage
+            id={"documents.texts.printJobStarted"}
+            defaultMessage={"The print job was started successfully."}
           />
         </Alert>
       </Snackbar>
@@ -106,6 +126,7 @@ function Documents(props) {
           props.deleteDocument(document.id);
           setSnackbar("success_delete");
         }}
+        printReport={printReport}
         documents={props.documents}
       />
     </div>
@@ -116,7 +137,7 @@ const mapStateToProps = (state) => {
   return {
     documents: state.documents,
     categories: state.categories,
-    user: state.auth.user,
+    user: state.auth.user
   };
 };
 
@@ -124,6 +145,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchDocuments: () => {
       return dispatch(documents.fetchDocuments());
+    },
+    printReport: (id, report) => {
+      return dispatch(documents.printReport(id, report));
     },
     fetchCategories: () => {
       return dispatch(categories.fetchCategories());
@@ -137,7 +161,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteDocument: (id) => {
       return dispatch(documents.deleteDocument(id));
     },
-    logout: () => dispatch(auth.logout()),
+    logout: () => dispatch(auth.logout())
   };
 };
 

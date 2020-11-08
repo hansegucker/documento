@@ -30,7 +30,7 @@ class DocumentViewSet(ModelViewSet):
         document = self.get_object()
         job = document.print_report(request.data.get("report", "barcode_label"))
 
-        serialized = PrintJobSerializer(job)
+        serialized = PrintJobSerializer(job, context={'request': request})
 
         return Response(serialized.data)
 
@@ -47,7 +47,7 @@ class PrintJobViewSet(ModelViewSet):
         job.printed_at = timezone.now()
         job.save()
 
-        serialized = PrintJobSerializer(job)
+        serialized = PrintJobSerializer(job, context={'request': request})
 
         return Response(serialized.data)
 

@@ -13,6 +13,9 @@ django-rest-knox = "^4.1.0"
 django-webpack-loader = "^0.7.0"
 django-cleanup = "^5.1.0"
 blabel = "^0.1.4"
+python-escpos = "^3.0a8"
+python-barcode = "^0.13.1"
+requests = "^2.24.0"
 
 [tool.poetry.dev-dependencies]
 
