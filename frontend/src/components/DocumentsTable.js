@@ -82,7 +82,10 @@ function DocumentsTable(props) {
                       id: "documents.buttons.infoPage",
                       defaultMessage: "Print info page",
                     })}>
-                    <Button onClick={() => props.printReport(document.id, "info_page")}>
+                    <Button
+                      onClick={() =>
+                        props.printReport(document.id, "info_page")
+                      }>
                       <Print />
                     </Button>
                   </Tooltip>
@@ -91,7 +94,10 @@ function DocumentsTable(props) {
                       id: "documents.buttons.barcodeLabel",
                       defaultMessage: "Print barcode label",
                     })}>
-                    <Button onClick={() => props.printReport(document.id, "barcode_label")}>
+                    <Button
+                      onClick={() =>
+                        props.printReport(document.id, "barcode_label")
+                      }>
                       <CropFree />
                     </Button>
                   </Tooltip>
@@ -127,7 +133,7 @@ DocumentsTable.propTypes = {
   editDocument: PropTypes.func.isRequired,
   deleteDocument: PropTypes.func.isRequired,
   documents: PropTypes.arrayOf(PropTypes.object).isRequired,
-  printReport: PropTypes.func.isRequired
+  printReport: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

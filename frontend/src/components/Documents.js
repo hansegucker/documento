@@ -36,7 +36,7 @@ function Documents(props) {
   };
 
   const printReport = (id, report) => {
-    props.printReport(id, report).then(function(res) {
+    props.printReport(id, report).then(function (res) {
       console.log("res", res);
       if (res) {
         setSnackbar("success_print");
@@ -137,7 +137,7 @@ const mapStateToProps = (state) => {
   return {
     documents: state.documents,
     categories: state.categories,
-    user: state.auth.user
+    user: state.auth.user,
   };
 };
 
@@ -161,7 +161,7 @@ const mapDispatchToProps = (dispatch) => {
     deleteDocument: (id) => {
       return dispatch(documents.deleteDocument(id));
     },
-    logout: () => dispatch(auth.logout())
+    logout: () => dispatch(auth.logout()),
   };
 };
 

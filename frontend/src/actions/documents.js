@@ -19,7 +19,11 @@ export const printReport = (id, report) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
 
-    return fetch(`/api/documents/${id}/print_report/`, {headers, method: "POST", body: JSON.stringify({report})})
+    return fetch(`/api/documents/${id}/print_report/`, {
+      headers,
+      method: "POST",
+      body: JSON.stringify({report}),
+    })
       .then(catchServerErrors)
       .then((res) => {
         catchAPIErrors(res, dispatch);
