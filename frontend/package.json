@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "fontsource-roboto": "^3.0.3",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-dom": "^16.13.1",
     "react-intl": "^5.8.2",
     "react-pdfobject": "^1.1.1",
