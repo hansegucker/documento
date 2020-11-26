@@ -16,9 +16,9 @@ import CategoryPath from "./CategoryPath";
 import {Category} from "../types";
 
 interface CategoriesTableProps {
-    editCategory: (category: Category)=>any,
-  deleteCategory: (category: Category)=>any,
-  categories: Category[],
+  editCategory: (category: Category) => any;
+  deleteCategory: (category: Category) => any;
+  categories: Category[];
 }
 export default function CategoriesTable(props: CategoriesTableProps) {
   const intl = useIntl();

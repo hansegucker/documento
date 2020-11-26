@@ -16,22 +16,30 @@ import {Dispatch} from "redux";
 import {Category, DDocument, User} from "../types";
 
 interface DocumentsProps {
-  fetchDocuments: () => Dispatch,
-  printReport: (id: number, report: string) => Promise<object>,
-  fetchCategories: () => Dispatch,
-  addDocument: (name: string, file: File, category: number | null) => Dispatch,
-  updateDocument: (id: number, name: string, category: number | null) => Dispatch,
-  deleteDocument: (id: number) => Dispatch,
-  logout: () => Dispatch,
-  documents: DDocument[],
-  categories: Category[],
-  user: User
+  fetchDocuments: () => Dispatch;
+  printReport: (id: number, report: string) => Promise<object>;
+  fetchCategories: () => Dispatch;
+  addDocument: (name: string, file: File, category: number | null) => Dispatch;
+  updateDocument: (
+    id: number,
+    name: string,
+    category: number | null
+  ) => Dispatch;
+  deleteDocument: (id: number) => Dispatch;
+  logout: () => Dispatch;
+  documents: DDocument[];
+  categories: Category[];
+  user: User;
 }
 
 function Documents(props: DocumentsProps) {
   const classes = useStyles();
 
-  const [formDialog, setFormDialog] = useState<{open: boolean, edit: boolean, document?:DDocument}>({open: false, edit: false});
+  const [formDialog, setFormDialog] = useState<{
+    open: boolean;
+    edit: boolean;
+    document?: DDocument;
+  }>({open: false, edit: false});
   const [snackbar, setSnackbar] = useState("");
 
   const closeSnackbar = (e: React.SyntheticEvent) => {
@@ -46,12 +54,14 @@ function Documents(props: DocumentsProps) {
     setFormDialog({open: true, edit: false});
   };
 
-  const openEditDocument: (document: DDocument) => any = (document: DDocument) => {
+  const openEditDocument: (document: DDocument) => any = (
+    document: DDocument
+  ) => {
     setFormDialog({open: true, edit: true, document: document});
   };
 
   const printReport = (id: number, report: string) => {
-    props.printReport(id, report).then(function(res: object) {
+    props.printReport(id, report).then(function (res: object) {
       console.log("res", res);
       if (res) {
         setSnackbar("success_print");
@@ -149,15 +159,15 @@ function Documents(props: DocumentsProps) {
 }
 
 interface DocumentsState {
-  documents: DDocument[],
-  categories: Category[],
-  auth: {user: User}
+  documents: DDocument[];
+  categories: Category[];
+  auth: {user: User};
 }
 const mapStateToProps = (state: DocumentsState) => {
   return {
     documents: state.documents,
     categories: state.categories,
-    user: state.auth.user
+    user: state.auth.user,
   };
 };
 
@@ -181,7 +191,7 @@ const mapDispatchToProps = (dispatch: Function) => {
     deleteDocument: (id: number) => {
       return dispatch(documents.deleteDocument(id));
     },
-    logout: () => dispatch(auth.logout())
+    logout: () => dispatch(auth.logout()),
   };
 };
 

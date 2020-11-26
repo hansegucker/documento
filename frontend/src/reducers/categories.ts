@@ -2,10 +2,21 @@ import {Category} from "../types";
 
 const initialState = {};
 
-export default function categories(state = initialState, action: {type: string, categories?: Category[], category?: Category, id?: number}) {
+export default function categories(
+  state = initialState,
+  action: {
+    type: string;
+    categories?: Category[];
+    category?: Category;
+    id?: number;
+  }
+) {
   let categoryObj = {...state};
 
-  const getParents = (category: Category, categories: {[key: number]: Category}) => {
+  const getParents = (
+    category: Category,
+    categories: {[key: number]: Category}
+  ) => {
     let currentCategory = category;
     let parents = [];
     while (currentCategory.parent) {
@@ -38,7 +49,6 @@ export default function categories(state = initialState, action: {type: string, 
       return;
     case "UPDATE_CATEGORY":
       if (action.category) {
-
         action.category.parents = getParents(action.category, state);
         return {...state, [action.category.id]: action.category};
       }

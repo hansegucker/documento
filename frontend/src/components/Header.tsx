@@ -17,13 +17,11 @@ import Button from "@material-ui/core/Button";
 import {DDocument, User} from "../types";
 import {Dispatch} from "redux";
 
-interface HeaderOwnProps {
-
-}
-interface HeaderProps extends HeaderOwnProps{
-documents: DDocument[],
-  user: User,
-  logout: () => Dispatch
+interface HeaderOwnProps {}
+interface HeaderProps extends HeaderOwnProps {
+  documents: DDocument[];
+  user: User;
+  logout: () => Dispatch;
 }
 function Header(props: HeaderProps) {
   const [mobileOpen, handleDrawerToggle] = useState(false);
@@ -100,8 +98,8 @@ function Header(props: HeaderProps) {
 }
 
 interface HeaderState {
-  documents: DDocument[],
-  auth: {user: User}
+  documents: DDocument[];
+  auth: {user: User};
 }
 
 const mapStateToProps = (state: HeaderState) => {

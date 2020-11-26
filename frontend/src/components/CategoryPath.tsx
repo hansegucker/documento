@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {Category} from "../types";
 
 interface CategoryPathProps {
-  category: Category
+  category: Category;
 }
 function CategoryPath(props: CategoryPathProps) {
   return (

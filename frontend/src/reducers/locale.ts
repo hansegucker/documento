@@ -7,7 +7,10 @@ if (browserLang in locales) {
   defaultLocale = locales[browserLang];
 }
 
-export default function locale(state = defaultLocale, action: {type: string, id:string}) {
+export default function locale(
+  state = defaultLocale,
+  action: {type: string; id: string}
+) {
   switch (action.type) {
     case "SWITCH_LOCALE":
       return {
