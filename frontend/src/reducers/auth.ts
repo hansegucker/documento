@@ -1,4 +1,6 @@
-const initialState = {
+import {Auth, User} from "../types";
+
+const initialState: Auth = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
   isLoading: true,
@@ -6,7 +8,7 @@ const initialState = {
   errors: {},
 };
 
-export default function auth(state = initialState, action) {
+export default function auth(state = initialState, action: {type: string, data?:{token: string}, user?:User}) {
   switch (action.type) {
     case "USER_LOADING":
       return {...state, isLoading: true};
@@ -20,6 +22,7 @@ export default function auth(state = initialState, action) {
       };
 
     case "LOGIN_SUCCESSFUL":
+      // @ts-ignore
       localStorage.setItem("token", action.data.token);
       return {
         ...state,

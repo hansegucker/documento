@@ -11,10 +11,21 @@ import {useStyles} from "../styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import CategorySelect from "./CategorySelect";
+import {Category} from "../types";
 
-function CategoriesForm(props) {
+interface CategoriesFormProps {
+  closeDialog: () => any,
+  updateCategory: (category: Category, name: string, parent: number | null) => any,
+  addCategory: (name: string, parent: number | null) => any,
+  open: boolean,
+  edit?: boolean,
+  category?:Category,
+}
+function CategoriesForm(props: CategoriesFormProps) {
   const intl = useIntl();
   const classes = useStyles();
+  const [name, setName] = useState("");
+  const [parent, setParent] = useState<number | null>(null);
 
   React.useEffect(() => {
     if (props.category) {
@@ -25,17 +36,15 @@ function CategoriesForm(props) {
     setParent(props.category ? props.category.parent : null);
   }, [props.category]);
 
-  const [name, setName] = useState("");
-  const [parent, setParent] = useState(null);
 
-  const handleCancel = (e) => {
+  const handleCancel = (e: React.MouseEvent) => {
     props.closeDialog();
   };
-  const handleSave = (e) => {
+  const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    if (props.edit) {
+    if (props.edit && props.category) {
       props.updateCategory(props.category, name, parent);
-    } else {
+    } else if (!props.edit) {
       props.addCategory(name, parent);
     }
     setName("");
@@ -95,7 +104,7 @@ function CategoriesForm(props) {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="danger">
+          <Button onClick={handleCancel} color="secondary">
             <FormattedMessage
               id={"categories.buttons.cancel"}
               defaultMessage={"Cancel"}

@@ -9,21 +9,28 @@ import Button from "@material-ui/core/Button";
 import {CropFree, Delete, Edit, Print} from "@material-ui/icons";
 import TableContainer from "@material-ui/core/TableContainer";
 import React from "react";
-import {useStyles} from "../styles";
-import PropTypes from "prop-types";
 import {FormattedMessage, useIntl} from "react-intl";
 import {Link as RouterLink} from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import Tooltip from "@material-ui/core/Tooltip";
 import {connect} from "react-redux";
 import CategoryPath from "./CategoryPath";
+import {Category, DDocument} from "../types";
 
-function DocumentsTable(props) {
-  const classes = useStyles();
+interface DocumentsTableOwnProps{
+    editDocument: (document: DDocument) => any,
+  deleteDocument: (document: DDocument) => any,
+  documents: DDocument[],
+  printReport: (document: number, report: string) => any,
+}
+interface DocumentsTableProps extends DocumentsTableOwnProps {
+  categories: Category[]
+}
+function DocumentsTable(props: DocumentsTableProps) {
   const intl = useIntl();
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table}>
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>#</TableCell>
@@ -82,10 +89,7 @@ function DocumentsTable(props) {
                       id: "documents.buttons.infoPage",
                       defaultMessage: "Print info page",
                     })}>
-                    <Button
-                      onClick={() =>
-                        props.printReport(document.id, "info_page")
-                      }>
+                    <Button onClick={() => props.printReport(document.id, "info_page")}>
                       <Print />
                     </Button>
                   </Tooltip>
@@ -94,10 +98,7 @@ function DocumentsTable(props) {
                       id: "documents.buttons.barcodeLabel",
                       defaultMessage: "Print barcode label",
                     })}>
-                    <Button
-                      onClick={() =>
-                        props.printReport(document.id, "barcode_label")
-                      }>
+                    <Button onClick={() => props.printReport(document.id, "barcode_label")}>
                       <CropFree />
                     </Button>
                   </Tooltip>
@@ -129,21 +130,16 @@ function DocumentsTable(props) {
   );
 }
 
-DocumentsTable.propTypes = {
-  editDocument: PropTypes.func.isRequired,
-  deleteDocument: PropTypes.func.isRequired,
-  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
-  printReport: PropTypes.func.isRequired,
-};
 
-const mapStateToProps = (state) => {
+interface DocumentsTableState {categories: Category[]}
+const mapStateToProps = (state: DocumentsTableState) => {
   return {
     categories: state.categories,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocumentsTable);
+export default connect<DocumentsTableState, {},DocumentsTableOwnProps, DocumentsTableProps>(mapStateToProps, mapDispatchToProps)(DocumentsTable);

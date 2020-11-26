@@ -9,18 +9,22 @@ import Button from "@material-ui/core/Button";
 import {Delete, Edit} from "@material-ui/icons";
 import TableContainer from "@material-ui/core/TableContainer";
 import React from "react";
-import {useStyles} from "../styles";
 import PropTypes from "prop-types";
 import {FormattedMessage, useIntl} from "react-intl";
 import Tooltip from "@material-ui/core/Tooltip";
 import CategoryPath from "./CategoryPath";
+import {Category} from "../types";
 
-export default function CategoriesTable(props) {
-  const classes = useStyles();
+interface CategoriesTableProps {
+    editCategory: (category: Category)=>any,
+  deleteCategory: (category: Category)=>any,
+  categories: Category[],
+}
+export default function CategoriesTable(props: CategoriesTableProps) {
   const intl = useIntl();
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table}>
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>#</TableCell>

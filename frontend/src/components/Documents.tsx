@@ -12,14 +12,29 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import DocumentsTable from "./DocumentsTable";
 import DocumentsForm from "./DocumentsForm";
+import {Dispatch} from "redux";
+import {Category, DDocument, User} from "../types";
 
-function Documents(props) {
+interface DocumentsProps {
+  fetchDocuments: () => Dispatch,
+  printReport: (id: number, report: string) => Promise<object>,
+  fetchCategories: () => Dispatch,
+  addDocument: (name: string, file: File, category: number | null) => Dispatch,
+  updateDocument: (id: number, name: string, category: number | null) => Dispatch,
+  deleteDocument: (id: number) => Dispatch,
+  logout: () => Dispatch,
+  documents: DDocument[],
+  categories: Category[],
+  user: User
+}
+
+function Documents(props: DocumentsProps) {
   const classes = useStyles();
 
-  const [formDialog, setFormDialog] = useState({open: false, edit: false});
+  const [formDialog, setFormDialog] = useState<{open: boolean, edit: boolean, document?:DDocument}>({open: false, edit: false});
   const [snackbar, setSnackbar] = useState("");
 
-  const closeSnackbar = (e) => {
+  const closeSnackbar = (e: React.SyntheticEvent) => {
     setSnackbar("");
   };
   useEffect(() => {
@@ -27,16 +42,16 @@ function Documents(props) {
     props.fetchCategories();
   }, [props.user]);
 
-  const openAddDocument = (e) => {
+  const openAddDocument = (e: React.MouseEvent) => {
     setFormDialog({open: true, edit: false});
   };
 
-  const openEditDocument = (document) => {
+  const openEditDocument: (document: DDocument) => any = (document: DDocument) => {
     setFormDialog({open: true, edit: true, document: document});
   };
 
-  const printReport = (id, report) => {
-    props.printReport(id, report).then(function (res) {
+  const printReport = (id: number, report: string) => {
+    props.printReport(id, report).then(function(res: object) {
       console.log("res", res);
       if (res) {
         setSnackbar("success_print");
@@ -122,7 +137,7 @@ function Documents(props) {
 
       <DocumentsTable
         editDocument={openEditDocument}
-        deleteDocument={(document) => {
+        deleteDocument={(document: DDocument) => {
           props.deleteDocument(document.id);
           setSnackbar("success_delete");
         }}
@@ -133,35 +148,40 @@ function Documents(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+interface DocumentsState {
+  documents: DDocument[],
+  categories: Category[],
+  auth: {user: User}
+}
+const mapStateToProps = (state: DocumentsState) => {
   return {
     documents: state.documents,
     categories: state.categories,
-    user: state.auth.user,
+    user: state.auth.user
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
     fetchDocuments: () => {
       return dispatch(documents.fetchDocuments());
     },
-    printReport: (id, report) => {
+    printReport: (id: number, report: string) => {
       return dispatch(documents.printReport(id, report));
     },
     fetchCategories: () => {
       return dispatch(categories.fetchCategories());
     },
-    addDocument: (name, file, category) => {
+    addDocument: (name: string, file: File, category: number | null) => {
       return dispatch(documents.addDocument(name, file, category));
     },
-    updateDocument: (id, name, category) => {
+    updateDocument: (id: number, name: string, category: number | null) => {
       return dispatch(documents.updateDocument(id, name, category));
     },
-    deleteDocument: (id) => {
+    deleteDocument: (id: number) => {
       return dispatch(documents.deleteDocument(id));
     },
-    logout: () => dispatch(auth.logout()),
+    logout: () => dispatch(auth.logout())
   };
 };
 

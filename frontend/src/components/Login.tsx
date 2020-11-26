@@ -12,15 +12,21 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {useStyles} from "../styles";
 import {FormattedMessage, useIntl} from "react-intl";
+import {Dispatch} from "redux";
 
-function Login(props) {
+interface LoginProps {
+  errors: {field: string, message: string}[],
+  isAuthenticated: boolean,
+  login: (username: string, password: string) => Dispatch
+}
+function Login(props: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const classes = useStyles();
   const intl = useIntl();
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     props.login(username, password);
   };
@@ -84,9 +90,11 @@ function Login(props) {
     </div>
   );
 }
-
-const mapStateToProps = (state) => {
-  let errors = [];
+interface LoginState {
+  auth: {isAuthenticated: boolean, errors: {[key: string]: string}}
+}
+const mapStateToProps = (state: LoginState) => {
+  let errors: {field: string, message: string}[] = [];
   if (state.auth.errors) {
     errors = Object.keys(state.auth.errors).map((field) => {
       return {field, message: state.auth.errors[field]};
@@ -98,9 +106,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
-    login: (username, password) => {
+    login: (username: string, password: string) => {
       return dispatch(auth.login(username, password));
     },
   };

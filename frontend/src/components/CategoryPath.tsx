@@ -1,8 +1,12 @@
 import {Breadcrumbs} from "@material-ui/core";
 import React from "react";
 import PropTypes from "prop-types";
+import {Category} from "../types";
 
-function CategoryPath(props) {
+interface CategoryPathProps {
+  category: Category
+}
+function CategoryPath(props: CategoryPathProps) {
   return (
     <Breadcrumbs>
       {props.category.parents.map((parent) => {

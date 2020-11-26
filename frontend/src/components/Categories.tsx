@@ -10,25 +10,41 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import CategoriesTable from "./CategoriesTable";
 import CategoriesForm from "./CategoriesForm";
+import {Dispatch} from "redux";
+import {Category, User} from "../types";
 
-function Categories(props) {
+interface CategoriesProps {
+  fetchCategories: () => Dispatch,
+  addCategory: (name: string, parent: number | null) => Dispatch,
+  updateCategory: (id: number, name: string, parent: number | null) => Dispatch,
+  deleteCategory: (id: number) => Dispatch,
+  logout: () => Dispatch,
+  user: User,
+  categories: Category[]
+}
+
+function Categories(props: CategoriesProps) {
   const classes = useStyles();
 
-  const [formDialog, setFormDialog] = useState({open: false, edit: false});
+  const formDialogDefault: {open: boolean, edit: boolean, category?: Category} = {
+    open: false,
+    edit: false
+  };
+  const [formDialog, setFormDialog] = useState(formDialogDefault);
   const [snackbar, setSnackbar] = useState("");
 
-  const closeSnackbar = (e) => {
+  const closeSnackbar = (e: React.SyntheticEvent) => {
     setSnackbar("");
   };
   useEffect(() => {
     props.fetchCategories();
   }, [props.user]);
 
-  const openAddCategory = (e) => {
+  const openAddCategory = (e: React.MouseEvent) => {
     setFormDialog({open: true, edit: false});
   };
 
-  const openEditCategory = (category) => {
+  const openEditCategory = (category: Category) => {
     setFormDialog({open: true, edit: true, category: category});
   };
 
@@ -106,28 +122,35 @@ function Categories(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+interface CategoriesState {
+  categories: Category[],
+  auth: {
+    user: User
+}
+}
+
+const mapStateToProps = (state: CategoriesState) => {
   return {
     categories: state.categories,
-    user: state.auth.user,
+    user: state.auth.user
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
     fetchCategories: () => {
       return dispatch(categories.fetchCategories());
     },
-    addCategory: (name, parent) => {
+    addCategory: (name: string, parent: number | null) => {
       return dispatch(categories.addCategory(name, parent));
     },
-    updateCategory: (id, name, parent) => {
+    updateCategory: (id: number, name: string, parent: number|null) => {
       return dispatch(categories.updateCategory(id, name, parent));
     },
-    deleteCategory: (id) => {
+    deleteCategory: (id: number) => {
       return dispatch(categories.deleteCategory(id));
     },
-    logout: () => dispatch(auth.logout()),
+    logout: () => dispatch(auth.logout())
   };
 };
 

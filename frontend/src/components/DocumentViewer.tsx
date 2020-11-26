@@ -14,8 +14,22 @@ import Button from "@material-ui/core/Button";
 import {CropFree, Delete, Edit} from "@material-ui/icons";
 import DocumentsForm from "./DocumentsForm";
 import AreYouSure from "./AreYouSure";
+import {DDocument, User} from "../types";
+import {Dispatch} from "redux";
 
-function DocumentViewer(props) {
+interface DocumentViewerOwnProps {
+
+}
+
+interface DocumentViewerProps extends DocumentViewerOwnProps {
+  documents: DDocument[],
+  fetchDocuments: () => Dispatch,
+  updateDocument: (id: number, name: string) => Dispatch,
+  deleteDocument: (id: number) => Dispatch,
+  user: User
+}
+
+function DocumentViewer(props: DocumentViewerProps) {
   const classes = useStyles();
   const intl = useIntl();
   const history = useHistory();
@@ -28,12 +42,16 @@ function DocumentViewer(props) {
   }, [props.user]);
 
   const deleteDocument = () => {
-    props.deleteDocument(document.id);
-    history.push("/");
+    if (document) {
+      props.deleteDocument(document.id);
+      history.push("/");
+    }
   };
 
-  let {id} = useParams();
-  let document = props.documents[id];
+  let {id} = useParams<{id: string | undefined}>();
+  let idParsed = Number(id) || null;
+  let document = idParsed ? props.documents[idParsed] : null;
+
 
   return document ? (
     <div>
@@ -46,7 +64,8 @@ function DocumentViewer(props) {
           props.updateDocument(document.id, name);
           // setSnackbar("success");
         }}
-        addDocument={(name, file) => {}}
+        addDocument={(name, file) => {
+        }}
       />
       <AreYouSure
         closeDialog={() => {
@@ -57,12 +76,12 @@ function DocumentViewer(props) {
         open={deleteDialog}
         title={intl.formatMessage({
           id: "documents.headings.areYouSure",
-          defaultMessage: "Are you sure?",
+          defaultMessage: "Are you sure?"
         })}
         content={intl.formatMessage({
           id: "documents.texts.deleteSure",
           defaultMessage:
-            "Do you really want to delete this document? You can't make this undone.",
+            "Do you really want to delete this document? You can't make this undone."
         })}
       />
 
@@ -80,7 +99,7 @@ function DocumentViewer(props) {
           <Tooltip
             title={intl.formatMessage({
               id: "documents.buttons.barcodeLabel",
-              defaultMessage: "Barcode label as PDF",
+              defaultMessage: "Barcode label as PDF"
             })}>
             <Button href={document.barcode_label}>
               <CropFree />
@@ -89,7 +108,7 @@ function DocumentViewer(props) {
           <Tooltip
             title={intl.formatMessage({
               id: "documents.buttons.edit",
-              defaultMessage: "Edit document",
+              defaultMessage: "Edit document"
             })}>
             <Button onClick={() => setFormDialog({open: true})}>
               <Edit />
@@ -98,7 +117,7 @@ function DocumentViewer(props) {
           <Tooltip
             title={intl.formatMessage({
               id: "documents.buttons.delete",
-              defaultMessage: "Delete document",
+              defaultMessage: "Delete document"
             })}>
             <Button onClick={() => setDeleteDialog(true)}>
               <Delete />
@@ -116,23 +135,29 @@ function DocumentViewer(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+interface DocumentViewerState {
+  auth: {user: User},
+  documents: DDocument[]
+}
+
+const mapStateToProps = (state: DocumentViewerState) => {
   return {
-    documents: state.documents,
+    user: state.auth.user,
+    documents: state.documents
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
     fetchDocuments: () => {
       return dispatch(documents.fetchDocuments());
     },
-    updateDocument: (id, name) => {
+    updateDocument: (id: number, name: string) => {
       return dispatch(documents.updateDocument(id, name));
     },
-    deleteDocument: (id) => {
+    deleteDocument: (id: number) => {
       return dispatch(documents.deleteDocument(id));
-    },
+    }
   };
 };
 

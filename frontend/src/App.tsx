@@ -3,7 +3,7 @@ import "./App.css";
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
 import Documents from "./components/Documents";
 import NotFound from "./components/NotFound";
-import {applyMiddleware, createStore} from "redux";
+import {applyMiddleware, createStore, Dispatch} from "redux";
 import documentoApp from "./reducers";
 import {connect, Provider} from "react-redux";
 import thunk from "redux-thunk";
@@ -16,17 +16,22 @@ import Footer from "./components/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DocumentViewer from "./components/DocumentViewer";
 import Categories from "./components/Categories";
+import {
+  Auth,
+  Locale,
+  Messages,
+} from "./types";
 
 let store = createStore(documentoApp, applyMiddleware(thunk));
 
-function RootContainerComponent(props) {
+function RootContainerComponent(props: {auth: Auth, locale: Locale, loadUser: Function, messages: Messages}) {
   useEffect(() => {
     props.loadUser();
-  }, [props.user]);
+  }, [props.auth]);
 
   const classes = useStyles();
 
-  const PrivateRoute = ({component: ChildComponent, ...rest}) => {
+  const PrivateRoute = ({component: ChildComponent, ...rest}: {component: Function, [key: string]: any}) => {
     return (
       <Route
         {...rest}
@@ -80,25 +85,36 @@ function RootContainerComponent(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+type RootState = {
+  auth: Auth,
+  locale: Locale
+}
+
+interface RootDispatch {
+  loadUser: () => Dispatch,
+}
+
+const mapStateToProps = (state: RootState) => {
   return {
     auth: state.auth,
-    locale: state.locale,
+    locale: state.locale
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function): RootDispatch => {
   return {
     loadUser: () => {
       return dispatch(auth.loadUser());
-    },
+    }
   };
 };
-let RootContainer = connect(
+let RootContainer = connect<RootState, RootDispatch, {messages: Messages}, {messages: Messages, auth: Auth, locale: Locale}>(
   mapStateToProps,
   mapDispatchToProps
 )(RootContainerComponent);
-export default class App extends Component {
+type State = {}
+type Props = {messages: Messages}
+export default class App extends Component<Props, State> {
   render() {
     return (
       <Provider store={store}>
