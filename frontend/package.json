@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@formatjs/cli": "^2.13.14",
-    "babel-plugin-react-intl": "^8.2.19",
+    "babel-plugin-react-intl": "^8.2.20",
     "extract-react-intl-messages": "^4.1.1",
     "prettier": "^2.2.0",
     "react-app-rewired": "^2.1.6",
