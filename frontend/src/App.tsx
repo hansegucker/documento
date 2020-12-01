@@ -27,7 +27,7 @@ let store = createStore(documentoApp, applyMiddleware(thunk));
 function RootContainerComponent(props: {auth: Auth, locale: Locale, loadUser: Function, messages: Messages}) {
   useEffect(() => {
     props.loadUser();
-  }, [props.auth]);
+  }, [props.auth.isAuthenticated]);
 
   const classes = useStyles();
 
