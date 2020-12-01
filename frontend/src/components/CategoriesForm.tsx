@@ -14,12 +14,16 @@ import CategorySelect from "./CategorySelect";
 import {Category} from "../types";
 
 interface CategoriesFormProps {
-  closeDialog: () => any,
-  updateCategory: (category: Category, name: string, parent: number | null) => any,
-  addCategory: (name: string, parent: number | null) => any,
-  open: boolean,
-  edit?: boolean,
-  category?:Category,
+  closeDialog: () => any;
+  updateCategory: (
+    category: Category,
+    name: string,
+    parent: number | null
+  ) => any;
+  addCategory: (name: string, parent: number | null) => any;
+  open: boolean;
+  edit?: boolean;
+  category?: Category;
 }
 function CategoriesForm(props: CategoriesFormProps) {
   const intl = useIntl();
@@ -35,7 +39,6 @@ function CategoriesForm(props: CategoriesFormProps) {
     }
     setParent(props.category ? props.category.parent : null);
   }, [props.category]);
-
 
   const handleCancel = (e: React.MouseEvent) => {
     props.closeDialog();

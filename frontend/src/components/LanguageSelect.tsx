@@ -10,12 +10,12 @@ import {Locale} from "../types";
 import {Dispatch} from "redux";
 
 interface LanguageSelectProps {
-  locale: Locale,
-  switchLocale: (id: string) => Dispatch
+  locale: Locale;
+  switchLocale: (id: string) => Dispatch;
 }
 function LanguageSelect(props: LanguageSelectProps) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState<Element| null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
 
   const handleClick = (event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget);

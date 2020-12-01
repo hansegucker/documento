@@ -8,12 +8,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 interface AreYouSureProps {
-  closeDialog: () => any,
-  doOK: () => any,
-  doCancel: () => any,
-  open: boolean,
-  title: string,
-  content?: string
+  closeDialog: () => any;
+  doOK: () => any;
+  doCancel: () => any;
+  open: boolean;
+  title: string;
+  content?: string;
 }
 function AreYouSure(props: AreYouSureProps) {
   const handleCancel = (event: React.MouseEvent) => {

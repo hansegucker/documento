@@ -15,9 +15,9 @@ import {FormattedMessage, useIntl} from "react-intl";
 import {Dispatch} from "redux";
 
 interface LoginProps {
-  errors: {field: string, message: string}[],
-  isAuthenticated: boolean,
-  login: (username: string, password: string) => Dispatch
+  errors: {field: string; message: string}[];
+  isAuthenticated: boolean;
+  login: (username: string, password: string) => Dispatch;
 }
 function Login(props: LoginProps) {
   const [username, setUsername] = useState("");
@@ -91,10 +91,10 @@ function Login(props: LoginProps) {
   );
 }
 interface LoginState {
-  auth: {isAuthenticated: boolean, errors: {[key: string]: string}}
+  auth: {isAuthenticated: boolean; errors: {[key: string]: string}};
 }
 const mapStateToProps = (state: LoginState) => {
-  let errors: {field: string, message: string}[] = [];
+  let errors: {field: string; message: string}[] = [];
   if (state.auth.errors) {
     errors = Object.keys(state.auth.errors).map((field) => {
       return {field, message: state.auth.errors[field]};

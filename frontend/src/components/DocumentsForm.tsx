@@ -16,12 +16,16 @@ import CategorySelect from "./CategorySelect";
 import {DDocument} from "../types";
 
 interface DocumentsFormProps {
-  closeDialog: () => any,
-  updateDocument: (document: DDocument, name: string, category: number|null)=>any,
-  addDocument: (name: string, file: File, category: number|null)=> any,
-  open: boolean,
-  edit?: boolean,
-  document?: DDocument,
+  closeDialog: () => any;
+  updateDocument: (
+    document: DDocument,
+    name: string,
+    category: number | null
+  ) => any;
+  addDocument: (name: string, file: File, category: number | null) => any;
+  open: boolean;
+  edit?: boolean;
+  document?: DDocument;
 }
 export default function DocumentsForm(props: DocumentsFormProps) {
   const intl = useIntl();
@@ -56,7 +60,7 @@ export default function DocumentsForm(props: DocumentsFormProps) {
     // console.log(formDialog);
     if (props.edit && props.document) {
       props.updateDocument(props.document, name, category);
-    } else if (!props.edit && file){
+    } else if (!props.edit && file) {
       props.addDocument(name, file, category);
     }
     setName("");
@@ -121,8 +125,8 @@ export default function DocumentsForm(props: DocumentsFormProps) {
                   type="file"
                   onChange={(e) => {
                     let filename = String(e.target.value).split("\\").pop();
-                    setFilename(filename ? filename: "");
-                    setFile(e.target.files ? e.target.files[0]: null);
+                    setFilename(filename ? filename : "");
+                    setFile(e.target.files ? e.target.files[0] : null);
                   }}
                   className={classes.fileInput}
                 />

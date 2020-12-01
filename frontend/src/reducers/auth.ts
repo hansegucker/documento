@@ -8,7 +8,10 @@ const initialState: Auth = {
   errors: {},
 };
 
-export default function auth(state = initialState, action: {type: string, data?:{token: string}, user?:User}) {
+export default function auth(
+  state = initialState,
+  action: {type: string; data?: {token: string}; user?: User}
+) {
   switch (action.type) {
     case "USER_LOADING":
       return {...state, isLoading: true};

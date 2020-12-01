@@ -2,7 +2,15 @@ import {DDocument} from "../types";
 
 const initialState: {[key: number]: DDocument} = {};
 
-export default function documents(state = initialState, action: {type: string, documents?: DDocument[], document?:DDocument, id?: number}) {
+export default function documents(
+  state = initialState,
+  action: {
+    type: string;
+    documents?: DDocument[];
+    document?: DDocument;
+    id?: number;
+  }
+) {
   let documentObj = {...state};
   switch (action.type) {
     case "FETCH_DOCUMENTS":

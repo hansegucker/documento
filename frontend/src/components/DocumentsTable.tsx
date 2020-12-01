@@ -17,14 +17,14 @@ import {connect} from "react-redux";
 import CategoryPath from "./CategoryPath";
 import {Category, DDocument} from "../types";
 
-interface DocumentsTableOwnProps{
-    editDocument: (document: DDocument) => any,
-  deleteDocument: (document: DDocument) => any,
-  documents: DDocument[],
-  printReport: (document: number, report: string) => any,
+interface DocumentsTableOwnProps {
+  editDocument: (document: DDocument) => any;
+  deleteDocument: (document: DDocument) => any;
+  documents: DDocument[];
+  printReport: (document: number, report: string) => any;
 }
 interface DocumentsTableProps extends DocumentsTableOwnProps {
-  categories: Category[]
+  categories: Category[];
 }
 function DocumentsTable(props: DocumentsTableProps) {
   const intl = useIntl();
@@ -89,7 +89,10 @@ function DocumentsTable(props: DocumentsTableProps) {
                       id: "documents.buttons.infoPage",
                       defaultMessage: "Print info page",
                     })}>
-                    <Button onClick={() => props.printReport(document.id, "info_page")}>
+                    <Button
+                      onClick={() =>
+                        props.printReport(document.id, "info_page")
+                      }>
                       <Print />
                     </Button>
                   </Tooltip>
@@ -98,7 +101,10 @@ function DocumentsTable(props: DocumentsTableProps) {
                       id: "documents.buttons.barcodeLabel",
                       defaultMessage: "Print barcode label",
                     })}>
-                    <Button onClick={() => props.printReport(document.id, "barcode_label")}>
+                    <Button
+                      onClick={() =>
+                        props.printReport(document.id, "barcode_label")
+                      }>
                       <CropFree />
                     </Button>
                   </Tooltip>
@@ -130,8 +136,9 @@ function DocumentsTable(props: DocumentsTableProps) {
   );
 }
 
-
-interface DocumentsTableState {categories: Category[]}
+interface DocumentsTableState {
+  categories: Category[];
+}
 const mapStateToProps = (state: DocumentsTableState) => {
   return {
     categories: state.categories,
@@ -142,4 +149,12 @@ const mapDispatchToProps = (dispatch: Function) => {
   return {};
 };
 
-export default connect<DocumentsTableState, {},DocumentsTableOwnProps, DocumentsTableProps>(mapStateToProps, mapDispatchToProps)(DocumentsTable);
+export default connect<
+  DocumentsTableState,
+  {},
+  DocumentsTableOwnProps,
+  DocumentsTableProps
+>(
+  mapStateToProps,
+  mapDispatchToProps
+)(DocumentsTable);

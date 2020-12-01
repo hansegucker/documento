@@ -16,22 +16,29 @@ import Footer from "./components/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DocumentViewer from "./components/DocumentViewer";
 import Categories from "./components/Categories";
-import {
-  Auth,
-  Locale,
-  Messages,
-} from "./types";
+import {Auth, Locale, Messages} from "./types";
 
 let store = createStore(documentoApp, applyMiddleware(thunk));
 
-function RootContainerComponent(props: {auth: Auth, locale: Locale, loadUser: Function, messages: Messages}) {
+function RootContainerComponent(props: {
+  auth: Auth;
+  locale: Locale;
+  loadUser: Function;
+  messages: Messages;
+}) {
   useEffect(() => {
     props.loadUser();
   }, [props.auth.isAuthenticated]);
 
   const classes = useStyles();
 
-  const PrivateRoute = ({component: ChildComponent, ...rest}: {component: Function, [key: string]: any}) => {
+  const PrivateRoute = ({
+    component: ChildComponent,
+    ...rest
+  }: {
+    component: Function;
+    [key: string]: any;
+  }) => {
     return (
       <Route
         {...rest}
@@ -86,18 +93,18 @@ function RootContainerComponent(props: {auth: Auth, locale: Locale, loadUser: Fu
 }
 
 type RootState = {
-  auth: Auth,
-  locale: Locale
-}
+  auth: Auth;
+  locale: Locale;
+};
 
 interface RootDispatch {
-  loadUser: () => Dispatch,
+  loadUser: () => Dispatch;
 }
 
 const mapStateToProps = (state: RootState) => {
   return {
     auth: state.auth,
-    locale: state.locale
+    locale: state.locale,
   };
 };
 
@@ -105,15 +112,20 @@ const mapDispatchToProps = (dispatch: Function): RootDispatch => {
   return {
     loadUser: () => {
       return dispatch(auth.loadUser());
-    }
+    },
   };
 };
-let RootContainer = connect<RootState, RootDispatch, {messages: Messages}, {messages: Messages, auth: Auth, locale: Locale}>(
+let RootContainer = connect<
+  RootState,
+  RootDispatch,
+  {messages: Messages},
+  {messages: Messages; auth: Auth; locale: Locale}
+>(
   mapStateToProps,
   mapDispatchToProps
 )(RootContainerComponent);
-type State = {}
-type Props = {messages: Messages}
+type State = {};
+type Props = {messages: Messages};
 export default class App extends Component<Props, State> {
   render() {
     return (

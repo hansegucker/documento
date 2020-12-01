@@ -7,10 +7,10 @@ import {connect} from "react-redux";
 import {Category} from "../types";
 
 interface CategorySelectProps {
-  value: number | string | null,
-  onChange: (value: number | null) => any,
-  label?: string|React.ReactElement,
-  categories: Category[]
+  value: number | string | null;
+  onChange: (value: number | null) => any;
+  label?: string | React.ReactElement;
+  categories: Category[];
 }
 function CategorySelect(props: CategorySelectProps) {
   return (

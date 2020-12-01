@@ -14,21 +14,25 @@ import {Dispatch} from "redux";
 import {Category, User} from "../types";
 
 interface CategoriesProps {
-  fetchCategories: () => Dispatch,
-  addCategory: (name: string, parent: number | null) => Dispatch,
-  updateCategory: (id: number, name: string, parent: number | null) => Dispatch,
-  deleteCategory: (id: number) => Dispatch,
-  logout: () => Dispatch,
-  user: User,
-  categories: Category[]
+  fetchCategories: () => Dispatch;
+  addCategory: (name: string, parent: number | null) => Dispatch;
+  updateCategory: (id: number, name: string, parent: number | null) => Dispatch;
+  deleteCategory: (id: number) => Dispatch;
+  logout: () => Dispatch;
+  user: User;
+  categories: Category[];
 }
 
 function Categories(props: CategoriesProps) {
   const classes = useStyles();
 
-  const formDialogDefault: {open: boolean, edit: boolean, category?: Category} = {
+  const formDialogDefault: {
+    open: boolean;
+    edit: boolean;
+    category?: Category;
+  } = {
     open: false,
-    edit: false
+    edit: false,
   };
   const [formDialog, setFormDialog] = useState(formDialogDefault);
   const [snackbar, setSnackbar] = useState("");
@@ -123,16 +127,16 @@ function Categories(props: CategoriesProps) {
 }
 
 interface CategoriesState {
-  categories: Category[],
+  categories: Category[];
   auth: {
-    user: User
-}
+    user: User;
+  };
 }
 
 const mapStateToProps = (state: CategoriesState) => {
   return {
     categories: state.categories,
-    user: state.auth.user
+    user: state.auth.user,
   };
 };
 
@@ -144,13 +148,13 @@ const mapDispatchToProps = (dispatch: Function) => {
     addCategory: (name: string, parent: number | null) => {
       return dispatch(categories.addCategory(name, parent));
     },
-    updateCategory: (id: number, name: string, parent: number|null) => {
+    updateCategory: (id: number, name: string, parent: number | null) => {
       return dispatch(categories.updateCategory(id, name, parent));
     },
     deleteCategory: (id: number) => {
       return dispatch(categories.deleteCategory(id));
     },
-    logout: () => dispatch(auth.logout())
+    logout: () => dispatch(auth.logout()),
   };
 };
 

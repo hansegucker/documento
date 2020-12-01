@@ -17,16 +17,14 @@ import AreYouSure from "./AreYouSure";
 import {DDocument, User} from "../types";
 import {Dispatch} from "redux";
 
-interface DocumentViewerOwnProps {
-
-}
+interface DocumentViewerOwnProps {}
 
 interface DocumentViewerProps extends DocumentViewerOwnProps {
-  documents: DDocument[],
-  fetchDocuments: () => Dispatch,
-  updateDocument: (id: number, name: string) => Dispatch,
-  deleteDocument: (id: number) => Dispatch,
-  user: User
+  documents: DDocument[];
+  fetchDocuments: () => Dispatch;
+  updateDocument: (id: number, name: string) => Dispatch;
+  deleteDocument: (id: number) => Dispatch;
+  user: User;
 }
 
 function DocumentViewer(props: DocumentViewerProps) {
@@ -52,7 +50,6 @@ function DocumentViewer(props: DocumentViewerProps) {
   let idParsed = Number(id) || null;
   let document = idParsed ? props.documents[idParsed] : null;
 
-
   return document ? (
     <div>
       <DocumentsForm
@@ -64,8 +61,7 @@ function DocumentViewer(props: DocumentViewerProps) {
           props.updateDocument(document.id, name);
           // setSnackbar("success");
         }}
-        addDocument={(name, file) => {
-        }}
+        addDocument={(name, file) => {}}
       />
       <AreYouSure
         closeDialog={() => {
@@ -76,12 +72,12 @@ function DocumentViewer(props: DocumentViewerProps) {
         open={deleteDialog}
         title={intl.formatMessage({
           id: "documents.headings.areYouSure",
-          defaultMessage: "Are you sure?"
+          defaultMessage: "Are you sure?",
         })}
         content={intl.formatMessage({
           id: "documents.texts.deleteSure",
           defaultMessage:
-            "Do you really want to delete this document? You can't make this undone."
+            "Do you really want to delete this document? You can't make this undone.",
         })}
       />
 
@@ -99,7 +95,7 @@ function DocumentViewer(props: DocumentViewerProps) {
           <Tooltip
             title={intl.formatMessage({
               id: "documents.buttons.barcodeLabel",
-              defaultMessage: "Barcode label as PDF"
+              defaultMessage: "Barcode label as PDF",
             })}>
             <Button href={document.barcode_label}>
               <CropFree />
@@ -108,7 +104,7 @@ function DocumentViewer(props: DocumentViewerProps) {
           <Tooltip
             title={intl.formatMessage({
               id: "documents.buttons.edit",
-              defaultMessage: "Edit document"
+              defaultMessage: "Edit document",
             })}>
             <Button onClick={() => setFormDialog({open: true})}>
               <Edit />
@@ -117,7 +113,7 @@ function DocumentViewer(props: DocumentViewerProps) {
           <Tooltip
             title={intl.formatMessage({
               id: "documents.buttons.delete",
-              defaultMessage: "Delete document"
+              defaultMessage: "Delete document",
             })}>
             <Button onClick={() => setDeleteDialog(true)}>
               <Delete />
@@ -136,14 +132,14 @@ function DocumentViewer(props: DocumentViewerProps) {
 }
 
 interface DocumentViewerState {
-  auth: {user: User},
-  documents: DDocument[]
+  auth: {user: User};
+  documents: DDocument[];
 }
 
 const mapStateToProps = (state: DocumentViewerState) => {
   return {
     user: state.auth.user,
-    documents: state.documents
+    documents: state.documents,
   };
 };
 
@@ -157,7 +153,7 @@ const mapDispatchToProps = (dispatch: Function) => {
     },
     deleteDocument: (id: number) => {
       return dispatch(documents.deleteDocument(id));
-    }
+    },
   };
 };
 
