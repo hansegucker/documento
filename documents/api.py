@@ -4,6 +4,7 @@ from documents.models import Category, Document, PrintJob
 from documents.serializers import (CategorySerializer, DocumentSerializer,
                                    LoginUserSerializer, PrintJobSerializer,
                                    UserSerializer)
+from documents.tasks import ocr_task
 from knox.models import AuthToken
 from rest_framework import permissions
 from rest_framework.decorators import action
@@ -25,12 +26,20 @@ class DocumentViewSet(ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = DocumentSerializer
 
+    @action(detail=True, methods=["post"])
+    def do_ocr(self, request, pk=None):
+        document = self.get_object()
+
+        result = ocr_task.delay(document.id)
+
+        return Response({"task_id": result.id})
+
     @action(methods=["post"], detail=True)
     def print_report(self, request, pk=None):
         document = self.get_object()
         job = document.print_report(request.data.get("report", "barcode_label"))
 
-        serialized = PrintJobSerializer(job, context={'request': request})
+        serialized = PrintJobSerializer(job, context={"request": request})
 
         return Response(serialized.data)
 
@@ -47,7 +56,7 @@ class PrintJobViewSet(ModelViewSet):
         job.printed_at = timezone.now()
         job.save()
 
-        serialized = PrintJobSerializer(job, context={'request': request})
+        serialized = PrintJobSerializer(job, context={"request": request})
 
         return Response(serialized.data)
 

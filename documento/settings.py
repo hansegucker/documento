@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "knox",
     "django_cleanup.apps.CleanupConfig",
+    "django_celery_results",
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,5 @@ REST_FRAMEWORK = {
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+CELERY_RESULT_BACKEND = "django-db"
