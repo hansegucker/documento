@@ -14,9 +14,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "typeRoots": [
-      "./types"
-    ],
+    "typeRoots": ["./types"],
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]
