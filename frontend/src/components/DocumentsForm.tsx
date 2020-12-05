@@ -10,8 +10,24 @@ import PropTypes from "prop-types";
 import {useStyles} from "../styles";
 import {CheckCircle, CloudUpload} from "@material-ui/icons";
 import Alert from "@material-ui/lab/Alert";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import CategorySelect from "./CategorySelect";
+import {DDocument} from "../types";
 
-export default function DocumentsForm(props) {
+interface DocumentsFormProps {
+  closeDialog: () => any;
+  updateDocument: (
+    document: DDocument,
+    name: string,
+    category: number | null
+  ) => any;
+  addDocument: (name: string, file: File, category: number | null) => any;
+  open: boolean;
+  edit?: boolean;
+  document?: DDocument;
+}
+export default function DocumentsForm(props: DocumentsFormProps) {
   const intl = useIntl();
   const classes = useStyles();
 
@@ -22,24 +38,30 @@ export default function DocumentsForm(props) {
       setName("");
     }
     setFilename("");
-    setFile("");
+    setFile(null);
+    if (props.document && props.document.category) {
+      setCategory(props.document.category);
+    } else {
+      setCategory(null);
+    }
   }, [props.document]);
 
   const [name, setName] = useState("");
   const [filename, setFilename] = useState("");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [category, setCategory] = useState<number | null>(null);
 
-  const handleCancel = (e) => {
+  const handleCancel = (e: React.MouseEvent) => {
     props.closeDialog();
     // setFormDialog({open: false, edit: false});
   };
-  const handleSave = (e) => {
+  const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     // console.log(formDialog);
-    if (props.edit) {
-      props.updateDocument(props.document, name);
-    } else {
-      props.addDocument(name, file);
+    if (props.edit && props.document) {
+      props.updateDocument(props.document, name, category);
+    } else if (!props.edit && file) {
+      props.addDocument(name, file, category);
     }
     setName("");
     props.closeDialog();
@@ -63,11 +85,32 @@ export default function DocumentsForm(props) {
         </DialogTitle>
         <DialogContent>
           <div className={classes.marginBottomSmall}>
+            <FormControl variant="outlined" className={classes.fullWidth}>
+              <InputLabel>
+                <FormattedMessage
+                  id={"documents.labels.category"}
+                  defaultMessage={"Category"}
+                />
+              </InputLabel>
+              <CategorySelect
+                label={
+                  <FormattedMessage
+                    id={"documents.labels.category"}
+                    defaultMessage={"Category"}
+                  />
+                }
+                value={category}
+                onChange={setCategory}
+              />
+            </FormControl>
+          </div>
+          <div className={classes.marginBottomSmall}>
             <TextField
               label={intl.formatMessage({
                 id: "documents.labels.title",
                 defaultMessage: "Title",
               })}
+              className={classes.fullWidth}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -81,8 +124,9 @@ export default function DocumentsForm(props) {
                 <input
                   type="file"
                   onChange={(e) => {
-                    setFilename(e.target.value.split("\\").pop());
-                    setFile(e.target.files[0]);
+                    let filename = String(e.target.value).split("\\").pop();
+                    setFilename(filename ? filename : "");
+                    setFile(e.target.files ? e.target.files[0] : null);
                   }}
                   className={classes.fileInput}
                 />
@@ -117,7 +161,7 @@ export default function DocumentsForm(props) {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="danger">
+          <Button onClick={handleCancel} color="secondary">
             <FormattedMessage
               id={"documents.buttons.cancel"}
               defaultMessage={"Cancel"}

@@ -6,52 +6,50 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import {CropFree, Delete, Edit} from "@material-ui/icons";
+import {Delete, Edit} from "@material-ui/icons";
 import TableContainer from "@material-ui/core/TableContainer";
 import React from "react";
-import {useStyles} from "../styles";
 import PropTypes from "prop-types";
 import {FormattedMessage, useIntl} from "react-intl";
-import {Link as RouterLink} from "react-router-dom";
-import Link from "@material-ui/core/Link";
 import Tooltip from "@material-ui/core/Tooltip";
+import CategoryPath from "./CategoryPath";
+import {Category} from "../types";
 
-export default function DocumentsTable(props) {
-  const classes = useStyles();
+interface CategoriesTableProps {
+  editCategory: (category: Category) => any;
+  deleteCategory: (category: Category) => any;
+  categories: Category[];
+}
+export default function CategoriesTable(props: CategoriesTableProps) {
   const intl = useIntl();
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table}>
+      <Table>
         <TableHead>
           <TableRow>
             <TableCell>#</TableCell>
             <TableCell>
               <FormattedMessage
-                id={"documents.headings.title"}
-                defaultMessage={"Title"}
+                id={"categories.headings.name"}
+                defaultMessage={"Name"}
               />
             </TableCell>
             <TableCell align={"right"}>
               <FormattedMessage
-                id={"documents.headings.actions"}
+                id={"categories.headings.actions"}
                 defaultMessage={"Actions"}
               />
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.values(props.documents).map((document) => (
-            <TableRow key={document.id}>
+          {Object.values(props.categories).map((category) => (
+            <TableRow key={category.id}>
               <TableCell>
-                <code>{document.id}</code>
+                <code>{category.id}</code>
               </TableCell>
               <TableCell component="th" scope="row">
-                <Link
-                  component={RouterLink}
-                  to={`/documents/${document.id}`}
-                  color={"inherit"}>
-                  {document.name}
-                </Link>
+                <CategoryPath category={category} />
               </TableCell>
               <TableCell align="right">
                 <ButtonGroup
@@ -60,28 +58,19 @@ export default function DocumentsTable(props) {
                   size="small">
                   <Tooltip
                     title={intl.formatMessage({
-                      id: "documents.buttons.barcodeLabel",
-                      defaultMessage: "Barcode label as PDF",
+                      id: "categories.buttons.edit",
+                      defaultMessage: "Edit category",
                     })}>
-                    <Button href={document.barcode_label}>
-                      <CropFree />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip
-                    title={intl.formatMessage({
-                      id: "documents.buttons.edit",
-                      defaultMessage: "Edit document",
-                    })}>
-                    <Button onClick={() => props.editDocument(document)}>
+                    <Button onClick={() => props.editCategory(category)}>
                       <Edit />
                     </Button>
                   </Tooltip>
                   <Tooltip
                     title={intl.formatMessage({
-                      id: "documents.buttons.delete",
-                      defaultMessage: "Delete document",
+                      id: "categories.buttons.delete",
+                      defaultMessage: "Delete category",
                     })}>
-                    <Button onClick={() => props.deleteDocument(document)}>
+                    <Button onClick={() => props.deleteCategory(category)}>
                       <Delete />
                     </Button>
                   </Tooltip>
@@ -95,8 +84,8 @@ export default function DocumentsTable(props) {
   );
 }
 
-DocumentsTable.propTypes = {
-  editDocument: PropTypes.func.isRequired,
-  deleteDocument: PropTypes.func.isRequired,
-  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+CategoriesTable.propTypes = {
+  editCategory: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

@@ -6,10 +6,12 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "r$ebsd+3b&*4i)lf1uw(r*%k13yn7%41oi7ulw)+bgoke498_^"
+SECRET_KEY = os.getenv(
+    "DOCUMENTO_SECRET_KEY", "r$ebsd+3b&*4i)lf1uw(r*%k13yn7%41oi7ulw)+bgoke498_^"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.getenv("DOCUMENTO_DEBUG", 1)))
 
 ALLOWED_HOSTS = []
 
@@ -61,13 +63,24 @@ TEMPLATES = [
 WSGI_APPLICATION = "documento.wsgi.application"
 
 # Database
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": os.getenv("DOCUMENTO_DB_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.getenv("DOCUMENTO_DB_NAME", os.path.join(BASE_DIR, "db.sqlite3")),
     }
 }
+e = os.getenv("DOCUMENTO_DB_USER")
+if e:
+    DATABASES["default"]["USER"] = e
+e = os.getenv("DOCUMENTO_DB_PASSWORD")
+if e:
+    DATABASES["default"]["PASSWORD"] = e
+e = os.getenv("DOCUMENTO_DB_HOST")
+if e:
+    DATABASES["default"]["HOST"] = e
+e = os.getenv("DOCUMENTO_DB_PORT")
+if e:
+    DATABASES["default"]["PORT"] = e
 
 # Password validation
 
@@ -96,18 +109,22 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+if DEBUG:
+    WEBPACK_STATS_FILE = "webpack-stats.dev.json"
+else:
+    WEBPACK_STATS_FILE = "webpack-stats.prod.json"
 WEBPACK_LOADER = {
     "DEFAULT": {
         "BUNDLE_DIR_NAME": "bundles/",
-        "STATS_FILE": os.path.join(BASE_DIR, "frontend", "webpack-stats.dev.json"),
+        "STATS_FILE": os.path.join(BASE_DIR, "frontend", WEBPACK_STATS_FILE),
     }
 }
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        "knox.auth.TokenAuthentication",
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
-        "knox.auth.TokenAuthentication",
     ),
 }
 

@@ -1,54 +1,40 @@
 import {catchAPIErrors, catchServerErrors, getAPIHeaders} from "../helper";
 
-export const fetchDocuments = () => {
+export const fetchCategories = () => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
 
-    return fetch("/api/documents/", {headers})
+    return fetch("/api/categories/", {headers})
       .then(catchServerErrors)
       .then((res) => {
         if (res.status === 200) {
-          return dispatch({type: "FETCH_DOCUMENTS", documents: res.data});
+          return dispatch({type: "FETCH_CATEGORIES", categories: res.data});
         }
         catchAPIErrors(res, dispatch);
       });
   };
 };
 
-export const printReport = (id, report) => {
+export const addCategory = (name, parent) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
 
-    return fetch(`/api/documents/${id}/print_report/`, {
+    let form_data = {name};
+    if (parent) {
+      form_data.parent = parent;
+    }
+
+    return fetch("/api/categories/", {
       headers,
       method: "POST",
-      body: JSON.stringify({report}),
+      body: JSON.stringify(form_data),
     })
-      .then(catchServerErrors)
-      .then((res) => {
-        catchAPIErrors(res, dispatch);
-        return res.status === 200;
-      });
-  };
-};
-
-export const addDocument = (name, file, category) => {
-  return (dispatch, getState) => {
-    let headers = getAPIHeaders(getState().auth);
-    delete headers["Content-Type"];
-
-    let form_data = new FormData();
-    form_data.append("name", name);
-    form_data.append("category", category);
-    form_data.append("file", file, file.name);
-
-    return fetch("/api/documents/", {headers, method: "POST", body: form_data})
       .then(catchServerErrors)
       .then((res) => {
         if (res.status === 201) {
           return dispatch({
-            type: "ADD_DOCUMENT",
-            document: res.data,
+            type: "ADD_CATEGORY",
+            category: res.data,
           });
         }
         catchAPIErrors(res, dispatch);
@@ -56,12 +42,12 @@ export const addDocument = (name, file, category) => {
   };
 };
 
-export const updateDocument = (id, name, category) => {
+export const updateCategory = (id, name, parent) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
-    let body = JSON.stringify({name, category});
+    let body = JSON.stringify({name, parent});
 
-    return fetch(`/api/documents/${id}/`, {
+    return fetch(`/api/categories/${id}/`, {
       headers,
       method: "PUT",
       body,
@@ -70,8 +56,8 @@ export const updateDocument = (id, name, category) => {
       .then((res) => {
         if (res.status === 200) {
           return dispatch({
-            type: "UPDATE_DOCUMENT",
-            document: res.data,
+            type: "UPDATE_CATEGORY",
+            category: res.data,
           });
         }
         catchAPIErrors(res, dispatch);
@@ -79,11 +65,11 @@ export const updateDocument = (id, name, category) => {
   };
 };
 
-export const deleteDocument = (id) => {
+export const deleteCategory = (id) => {
   return (dispatch, getState) => {
     let headers = getAPIHeaders(getState().auth);
 
-    return fetch(`/api/documents/${id}/`, {headers, method: "DELETE"})
+    return fetch(`/api/categories/${id}/`, {headers, method: "DELETE"})
       .then((res) => {
         if (res.status === 204) {
           return {status: res.status, data: {}};
@@ -99,7 +85,7 @@ export const deleteDocument = (id) => {
       .then((res) => {
         if (res.status === 204) {
           return dispatch({
-            type: "DELETE_DOCUMENT",
+            type: "DELETE_CATEGORY",
             id,
           });
         }

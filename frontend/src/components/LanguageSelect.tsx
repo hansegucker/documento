@@ -6,12 +6,18 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {connect} from "react-redux";
 import {locale} from "../actions";
 import {locales} from "../helper";
+import {Locale} from "../types";
+import {Dispatch} from "redux";
 
-function LanguageSelect(props) {
+interface LanguageSelectProps {
+  locale: Locale;
+  switchLocale: (id: string) => Dispatch;
+}
+function LanguageSelect(props: LanguageSelectProps) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -19,7 +25,7 @@ function LanguageSelect(props) {
     setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (event, locale) => {
+  const handleMenuItemClick = (event: React.MouseEvent, locale: Locale) => {
     console.log(locale);
     props.switchLocale(locale.id);
     setAnchorEl(null);
@@ -58,15 +64,15 @@ function LanguageSelect(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: {locale: Locale}) => {
   return {
     locale: state.locale,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
-    switchLocale: (id) => {
+    switchLocale: (id: string) => {
       return dispatch(locale.switchLocale(id));
     },
   };

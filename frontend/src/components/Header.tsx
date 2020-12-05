@@ -14,8 +14,16 @@ import {auth} from "../actions";
 import {connect} from "react-redux";
 import {FormattedMessage} from "react-intl";
 import Button from "@material-ui/core/Button";
+import {DDocument, User} from "../types";
+import {Dispatch} from "redux";
 
-function Header(props) {
+interface HeaderOwnProps {}
+interface HeaderProps extends HeaderOwnProps {
+  documents: DDocument[];
+  user: User;
+  logout: () => Dispatch;
+}
+function Header(props: HeaderProps) {
   const [mobileOpen, handleDrawerToggle] = useState(false);
   const container =
     window !== undefined ? () => window.document.body : undefined;
@@ -31,7 +39,7 @@ function Header(props) {
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
+            onClick={() => handleDrawerToggle(!mobileOpen)}
             className={classes.menuButton}>
             <MenuIcon />
           </IconButton>
@@ -89,14 +97,19 @@ function Header(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+interface HeaderState {
+  documents: DDocument[];
+  auth: {user: User};
+}
+
+const mapStateToProps = (state: HeaderState) => {
   return {
     documents: state.documents,
     user: state.auth.user,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
     logout: () => dispatch(auth.logout()),
   };

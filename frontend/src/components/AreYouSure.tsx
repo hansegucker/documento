@@ -7,13 +7,21 @@ import Dialog from "@material-ui/core/Dialog";
 import React from "react";
 import PropTypes from "prop-types";
 
-function AreYouSure(props) {
-  const handleCancel = (e) => {
+interface AreYouSureProps {
+  closeDialog: () => any;
+  doOK: () => any;
+  doCancel: () => any;
+  open: boolean;
+  title: string;
+  content?: string;
+}
+function AreYouSure(props: AreYouSureProps) {
+  const handleCancel = (event: React.MouseEvent) => {
     props.doCancel();
     props.closeDialog();
   };
-  const handleOK = (e) => {
-    e.preventDefault();
+  const handleOK = (event: React.MouseEvent) => {
+    event.preventDefault();
     props.doOK();
 
     props.closeDialog();
@@ -24,7 +32,7 @@ function AreYouSure(props) {
       <DialogTitle>{props.title}</DialogTitle>
       <DialogContent>{props.content}</DialogContent>
       <DialogActions>
-        <Button onClick={handleCancel} color="danger">
+        <Button onClick={handleCancel} color="secondary">
           <FormattedMessage
             id={"areyousure.buttons.cancel"}
             defaultMessage={"No, cancel"}

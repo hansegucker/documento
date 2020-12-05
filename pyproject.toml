@@ -8,7 +8,7 @@ license = "GPL-3.0-or-later"
 [tool.poetry.dependencies]
 python = "^3.6"
 django-rest-framework = "^0.1.0"
-django = "^3.1.1"
+django = "^3.1.4"
 django-rest-knox = "^4.1.0"
 django-webpack-loader = "^0.7.0"
 django-cleanup = "^5.1.0"
@@ -19,6 +19,9 @@ celery-progress = "^0.0.12"
 PyPDF2 = "^1.26.0"
 pytesseract = "^0.3.6"
 pdf2image = "^1.14.0"
+python-escpos = "^3.0a8"
+python-barcode = "^0.13.1"
+requests = "^2.25.0"
 
 [tool.poetry.dev-dependencies]
 

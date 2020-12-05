@@ -14,37 +14,81 @@ import Button from "@material-ui/core/Button";
 import {CropFree, Delete, Edit} from "@material-ui/icons";
 import DocumentsForm from "./DocumentsForm";
 import AreYouSure from "./AreYouSure";
+import {DDocument, User} from "../types";
+import {Dispatch} from "redux";
+import NetworkError from "./NetworkError";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
-function DocumentViewer(props) {
+interface DocumentViewerOwnProps {}
+
+interface DocumentViewerProps extends DocumentViewerOwnProps {
+  documents: DDocument[];
+  fetchDocuments: () => Promise<object>;
+  updateDocument: (id: number, name: string) => Promise<object>;
+  deleteDocument: (id: number) => Promise<object>;
+  user: User;
+}
+
+function DocumentViewer(props: DocumentViewerProps) {
   const classes = useStyles();
   const intl = useIntl();
   const history = useHistory();
 
+  let [snackbar, setSnackbar] = useState("");
   let [formDialog, setFormDialog] = useState({open: false});
   let [deleteDialog, setDeleteDialog] = useState(false);
 
+  const closeSnackbar = (e?: React.SyntheticEvent) => {
+    setSnackbar("");
+  };
+
+  const handleNetworkError = (error?: object) => {
+    setSnackbar("network_error");
+  };
+
   useEffect(() => {
-    props.fetchDocuments();
+    props.fetchDocuments().catch(handleNetworkError);
   }, [props.user]);
 
   const deleteDocument = () => {
-    props.deleteDocument(document.id);
-    history.push("/");
+    if (document) {
+      props.deleteDocument(document.id);
+      history.push("/");
+    }
   };
 
-  let {id} = useParams();
-  let document = props.documents[id];
+  let {id} = useParams<{id: string | undefined}>();
+  let idParsed = Number(id) || null;
+  let document = idParsed ? props.documents[idParsed] : null;
 
   return document ? (
     <div>
+      <NetworkError
+        open={snackbar === "network_error"}
+        onClose={closeSnackbar}
+      />
+      <Snackbar
+        open={snackbar === "success"}
+        autoHideDuration={3000}
+        onClose={closeSnackbar}>
+        <Alert onClose={closeSnackbar} severity="success">
+          <FormattedMessage
+            id={"documents.texts.document-success"}
+            defaultMessage={"The document was saved successfully."}
+          />
+        </Alert>
+      </Snackbar>
       <DocumentsForm
         closeDialog={() => setFormDialog({open: false})}
         open={formDialog.open}
         edit={true}
         document={document}
         updateDocument={(document, name) => {
-          props.updateDocument(document.id, name);
-          // setSnackbar("success");
+          props
+            .updateDocument(document.id, name)
+            .then(() => setSnackbar("success"))
+            .catch(handleNetworkError);
         }}
         addDocument={(name, file) => {}}
       />
@@ -116,21 +160,27 @@ function DocumentViewer(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+interface DocumentViewerState {
+  auth: {user: User};
+  documents: DDocument[];
+}
+
+const mapStateToProps = (state: DocumentViewerState) => {
   return {
+    user: state.auth.user,
     documents: state.documents,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
     fetchDocuments: () => {
       return dispatch(documents.fetchDocuments());
     },
-    updateDocument: (id, name) => {
+    updateDocument: (id: number, name: string) => {
       return dispatch(documents.updateDocument(id, name));
     },
-    deleteDocument: (id) => {
+    deleteDocument: (id: number) => {
       return dispatch(documents.deleteDocument(id));
     },
   };
