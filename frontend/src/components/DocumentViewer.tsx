@@ -16,14 +16,17 @@ import DocumentsForm from "./DocumentsForm";
 import AreYouSure from "./AreYouSure";
 import {DDocument, User} from "../types";
 import {Dispatch} from "redux";
+import NetworkError from "./NetworkError";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 interface DocumentViewerOwnProps {}
 
 interface DocumentViewerProps extends DocumentViewerOwnProps {
   documents: DDocument[];
-  fetchDocuments: () => Dispatch;
-  updateDocument: (id: number, name: string) => Dispatch;
-  deleteDocument: (id: number) => Dispatch;
+  fetchDocuments: () => Promise<object>;
+  updateDocument: (id: number, name: string) => Promise<object>;
+  deleteDocument: (id: number) => Promise<object>;
   user: User;
 }
 
@@ -32,11 +35,20 @@ function DocumentViewer(props: DocumentViewerProps) {
   const intl = useIntl();
   const history = useHistory();
 
+  let [snackbar, setSnackbar] = useState("");
   let [formDialog, setFormDialog] = useState({open: false});
   let [deleteDialog, setDeleteDialog] = useState(false);
 
+  const closeSnackbar = (e?: React.SyntheticEvent) => {
+    setSnackbar("");
+  };
+
+  const handleNetworkError = (error?: object) => {
+    setSnackbar("network_error");
+  };
+
   useEffect(() => {
-    props.fetchDocuments();
+    props.fetchDocuments().catch(handleNetworkError);
   }, [props.user]);
 
   const deleteDocument = () => {
@@ -52,14 +64,31 @@ function DocumentViewer(props: DocumentViewerProps) {
 
   return document ? (
     <div>
+      <NetworkError
+        open={snackbar === "network_error"}
+        onClose={closeSnackbar}
+      />
+      <Snackbar
+        open={snackbar === "success"}
+        autoHideDuration={3000}
+        onClose={closeSnackbar}>
+        <Alert onClose={closeSnackbar} severity="success">
+          <FormattedMessage
+            id={"documents.texts.document-success"}
+            defaultMessage={"The document was saved successfully."}
+          />
+        </Alert>
+      </Snackbar>
       <DocumentsForm
         closeDialog={() => setFormDialog({open: false})}
         open={formDialog.open}
         edit={true}
         document={document}
         updateDocument={(document, name) => {
-          props.updateDocument(document.id, name);
-          // setSnackbar("success");
+          props
+            .updateDocument(document.id, name)
+            .then(() => setSnackbar("success"))
+            .catch(handleNetworkError);
         }}
         addDocument={(name, file) => {}}
       />

@@ -14,18 +14,23 @@ import DocumentsTable from "./DocumentsTable";
 import DocumentsForm from "./DocumentsForm";
 import {Dispatch} from "redux";
 import {Category, DDocument, User} from "../types";
+import NetworkError from "./NetworkError";
 
 interface DocumentsProps {
-  fetchDocuments: () => Dispatch;
+  fetchDocuments: () => Promise<object>;
   printReport: (id: number, report: string) => Promise<object>;
-  fetchCategories: () => Dispatch;
-  addDocument: (name: string, file: File, category: number | null) => Dispatch;
+  fetchCategories: () => Promise<object>;
+  addDocument: (
+    name: string,
+    file: File,
+    category: number | null
+  ) => Promise<object>;
   updateDocument: (
     id: number,
     name: string,
     category: number | null
-  ) => Dispatch;
-  deleteDocument: (id: number) => Dispatch;
+  ) => Promise<object>;
+  deleteDocument: (id: number) => Promise<object>;
   logout: () => Dispatch;
   documents: DDocument[];
   categories: Category[];
@@ -42,12 +47,12 @@ function Documents(props: DocumentsProps) {
   }>({open: false, edit: false});
   const [snackbar, setSnackbar] = useState("");
 
-  const closeSnackbar = (e: React.SyntheticEvent) => {
+  const closeSnackbar = (e?: React.SyntheticEvent) => {
     setSnackbar("");
   };
   useEffect(() => {
-    props.fetchDocuments();
-    props.fetchCategories();
+    props.fetchDocuments().catch(handleNetworkError);
+    props.fetchCategories().catch(handleNetworkError);
   }, [props.user]);
 
   const openAddDocument = (e: React.MouseEvent) => {
@@ -69,8 +74,16 @@ function Documents(props: DocumentsProps) {
     });
   };
 
+  const handleNetworkError = (error?: object) => {
+    setSnackbar("network_error");
+  };
+
   return (
     <div>
+      <NetworkError
+        open={snackbar === "network_error"}
+        onClose={closeSnackbar}
+      />
       <Snackbar
         open={snackbar === "success"}
         autoHideDuration={3000}
@@ -111,12 +124,16 @@ function Documents(props: DocumentsProps) {
         edit={formDialog.edit}
         document={formDialog.document}
         updateDocument={(document, name, category) => {
-          props.updateDocument(document.id, name, category);
-          setSnackbar("success");
+          props
+            .updateDocument(document.id, name, category)
+            .then(() => setSnackbar("success"))
+            .catch(handleNetworkError);
         }}
         addDocument={(name, file, category) => {
-          props.addDocument(name, file, category);
-          setSnackbar("success");
+          props
+            .addDocument(name, file, category)
+            .then(() => setSnackbar("success"))
+            .catch(handleNetworkError);
         }}
       />
 
@@ -148,8 +165,10 @@ function Documents(props: DocumentsProps) {
       <DocumentsTable
         editDocument={openEditDocument}
         deleteDocument={(document: DDocument) => {
-          props.deleteDocument(document.id);
-          setSnackbar("success_delete");
+          props
+            .deleteDocument(document.id)
+            .then(() => setSnackbar("success_delete"))
+            .catch(handleNetworkError);
         }}
         printReport={printReport}
         documents={props.documents}

@@ -12,12 +12,17 @@ import CategoriesTable from "./CategoriesTable";
 import CategoriesForm from "./CategoriesForm";
 import {Dispatch} from "redux";
 import {Category, User} from "../types";
+import NetworkError from "./NetworkError";
 
 interface CategoriesProps {
-  fetchCategories: () => Dispatch;
-  addCategory: (name: string, parent: number | null) => Dispatch;
-  updateCategory: (id: number, name: string, parent: number | null) => Dispatch;
-  deleteCategory: (id: number) => Dispatch;
+  fetchCategories: () => Promise<object>;
+  addCategory: (name: string, parent: number | null) => Promise<object>;
+  updateCategory: (
+    id: number,
+    name: string,
+    parent: number | null
+  ) => Promise<object>;
+  deleteCategory: (id: number) => Promise<object>;
   logout: () => Dispatch;
   user: User;
   categories: Category[];
@@ -37,11 +42,11 @@ function Categories(props: CategoriesProps) {
   const [formDialog, setFormDialog] = useState(formDialogDefault);
   const [snackbar, setSnackbar] = useState("");
 
-  const closeSnackbar = (e: React.SyntheticEvent) => {
+  const closeSnackbar = (e?: React.SyntheticEvent) => {
     setSnackbar("");
   };
   useEffect(() => {
-    props.fetchCategories();
+    props.fetchCategories().catch(handleNetworkError);
   }, [props.user]);
 
   const openAddCategory = (e: React.MouseEvent) => {
@@ -52,8 +57,16 @@ function Categories(props: CategoriesProps) {
     setFormDialog({open: true, edit: true, category: category});
   };
 
+  const handleNetworkError = (error?: object) => {
+    setSnackbar("network_error");
+  };
+
   return (
     <div>
+      <NetworkError
+        open={snackbar === "network_error"}
+        onClose={closeSnackbar}
+      />
       <Snackbar
         open={snackbar === "success"}
         autoHideDuration={3000}
@@ -83,12 +96,16 @@ function Categories(props: CategoriesProps) {
         edit={formDialog.edit}
         category={formDialog.category}
         updateCategory={(category, name, parent) => {
-          props.updateCategory(category.id, name, parent);
-          setSnackbar("success");
+          props
+            .updateCategory(category.id, name, parent)
+            .then(() => setSnackbar("success"))
+            .catch(handleNetworkError);
         }}
         addCategory={(name, parent) => {
-          props.addCategory(name, parent);
-          setSnackbar("success");
+          props
+            .addCategory(name, parent)
+            .then(() => setSnackbar("success"))
+            .catch(handleNetworkError);
         }}
       />
 
@@ -117,8 +134,10 @@ function Categories(props: CategoriesProps) {
       <CategoriesTable
         editCategory={openEditCategory}
         deleteCategory={(category) => {
-          props.deleteCategory(category.id);
-          setSnackbar("success_delete");
+          props
+            .deleteCategory(category.id)
+            .then(() => setSnackbar("success_delete"))
+            .catch(handleNetworkError);
         }}
         categories={props.categories}
       />
