@@ -3,6 +3,7 @@ import subprocess
 import time
 
 import requests
+
 from barcode import Code128
 from barcode.writer import ImageWriter
 from escpos.printer import Usb

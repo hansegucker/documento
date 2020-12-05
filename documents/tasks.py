@@ -3,13 +3,13 @@ import time
 import uuid
 from decimal import Decimal
 
-import pdf2image
-from PyPDF2 import PdfFileMerger
-from celery import shared_task
-from celery_progress.backend import AbstractProgressRecorder, PROGRESS_STATE
-import pytesseract
 from django.conf import settings
+from PyPDF2 import PdfFileMerger
 
+import pdf2image
+import pytesseract
+from celery import shared_task
+from celery_progress.backend import PROGRESS_STATE, AbstractProgressRecorder
 from documents.models import Document
 
 
@@ -39,26 +39,21 @@ def ocr_task(self, pk):
     document = Document.objects.get(pk=pk)
 
     progress_recorder = ProgressRecorder(self)
-    progress_recorder.set_progress(
-        0, 100, stage=1, description="pdf_to_images"
-    )
+    progress_recorder.set_progress(0, 100, stage=1, description="pdf_to_images")
     images = pdf2image.convert_from_path(document.file.path, dpi=300)
-    progress_recorder.set_progress(
-        100, 100, stage=1, description="pdf_to_images"
-    )
+    progress_recorder.set_progress(100, 100, stage=1, description="pdf_to_images")
     images_count = len(images)
     time.sleep(1)
 
     merger = PdfFileMerger()
     for i, image in enumerate(images):
         progress_recorder.set_progress(
-            i,
-            images_count,
-            stage=2,
-            description="ocr",
+            i, images_count, stage=2, description="ocr",
         )
         pdf = pytesseract.image_to_pdf_or_hocr(image, extension="pdf", lang="deu")
-        filename = os.path.join(settings.MEDIA_ROOT, "tmp-ocr-{}.pdf".format(uuid.uuid4()))
+        filename = os.path.join(
+            settings.MEDIA_ROOT, "tmp-ocr-{}.pdf".format(uuid.uuid4())
+        )
         with open(filename, "wb") as f:
             f.write(pdf)
         with open(filename, "rb") as f:
@@ -69,9 +64,6 @@ def ocr_task(self, pk):
         merger.write(output)
         output.close()
         progress_recorder.set_progress(
-            i + 1,
-            images_count,
-            stage=2,
-            description="ocr",
+            i + 1, images_count, stage=2, description="ocr",
         )
     return "done"
