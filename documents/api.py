@@ -1,9 +1,13 @@
 from django.utils import timezone
 
 from documents.models import Category, Document, PrintJob
-from documents.serializers import (CategorySerializer, DocumentSerializer,
-                                   LoginUserSerializer, PrintJobSerializer,
-                                   UserSerializer)
+from documents.serializers import (
+    CategorySerializer,
+    DocumentSerializer,
+    LoginUserSerializer,
+    PrintJobSerializer,
+    UserSerializer,
+)
 from knox.models import AuthToken
 from rest_framework import permissions
 from rest_framework.decorators import action
@@ -30,7 +34,7 @@ class DocumentViewSet(ModelViewSet):
         document = self.get_object()
         job = document.print_report(request.data.get("report", "barcode_label"))
 
-        serialized = PrintJobSerializer(job, context={'request': request})
+        serialized = PrintJobSerializer(job, context={"request": request})
 
         return Response(serialized.data)
 
@@ -47,7 +51,7 @@ class PrintJobViewSet(ModelViewSet):
         job.printed_at = timezone.now()
         job.save()
 
-        serialized = PrintJobSerializer(job, context={'request': request})
+        serialized = PrintJobSerializer(job, context={"request": request})
 
         return Response(serialized.data)
 
