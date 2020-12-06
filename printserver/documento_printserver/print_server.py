@@ -3,6 +3,7 @@ import subprocess
 import time
 
 import requests
+
 from barcode import Code128
 from barcode.writer import ImageWriter
 from escpos.printer import Usb
@@ -60,10 +61,9 @@ def print_info(document, categories=None):
     barcode = document["barcode"]
 
     writer = ImageWriter()
-    writer.set_options(
+    code = Code128(barcode, writer=writer).render(
         {"module_width": 0.4, "module_height": 5.0, "text_distance": 3.0}
     )
-    code = Code128(barcode, writer=writer).render()
     printer.image(code, center=True)
 
     printer.ln(3)
@@ -75,54 +75,65 @@ login_url = base_url + "/api/auth/login/"
 jobs_url = base_url + "/api/print_jobs/"
 categories_url = base_url + "/api/categories/"
 
-while True:
-    # Get auth token
-    r = requests.post(
-        login_url,
-        json={"username": config.get("username"), "password": config.get("password")},
-    )
-    token = r.json()["token"]
-    headers = {"Authorization": f"Token {token}"}
 
-    # Fetch print jobs
-    jobs = requests.get(jobs_url, headers=headers).json()
+def print_server():
+    while True:
+        # Get auth token
+        r = requests.post(
+            login_url,
+            json={
+                "username": config.get("username"),
+                "password": config.get("password"),
+            },
+        )
+        token = r.json()["token"]
+        headers = {"Authorization": f"Token {token}"}
 
-    # Fetch categories
-    categories = requests.get(categories_url, headers=headers).json()
-    categories = {category["id"]: category for category in categories}
+        # Fetch print jobs
+        jobs = requests.get(jobs_url, headers=headers).json()
 
-    for job in jobs:
-        job_id = job["id"]
-        report = job["report"]
-        document = job["document"]
-        document_id = document["id"]
-        document_name = document["name"]
+        # Fetch categories
+        categories = requests.get(categories_url, headers=headers).json()
+        categories = {category["id"]: category for category in categories}
 
-        print(f"Job {job_id}: {report}; Document {document_id}: {document_name}")
+        for job in jobs:
+            job_id = job["id"]
+            report = job["report"]
+            document = job["document"]
+            document_id = document["id"]
+            document_name = document["name"]
 
-        printed = False
-        if report == "barcode_label":
-            label_url = base_url + document["barcode_label"]
+            print(f"Job {job_id}: {report}; Document {document_id}: {document_name}")
 
-            # Download barcode label
-            r = requests.get(label_url)
-            with open("barcode-tmp.pdf", "wb") as f:
-                f.write(r.content)
+            printed = False
+            if report == "barcode_label":
+                label_url = base_url + document["barcode_label"]
 
-            # Send barcode label to printer
-            subprocess.Popen(
-                ["lp", "-d", config.get("barcode_printer"), "barcode-tmp.pdf"],
-                stderr=subprocess.DEVNULL,
-                stdout=subprocess.DEVNULL,
-            )
-            printed = True
+                # Download barcode label
+                r = requests.get(label_url)
+                with open("barcode-tmp.pdf", "wb") as f:
+                    f.write(r.content)
 
-        elif report == "info_page":
-            print_info(document, categories)
-            printed = True
+                # Send barcode label to printer
+                subprocess.Popen(
+                    ["lp", "-d", config.get("barcode_printer"), "barcode-tmp.pdf"],
+                    stderr=subprocess.DEVNULL,
+                    stdout=subprocess.DEVNULL,
+                )
+                printed = True
 
-        # Mark print job as printed
-        if printed:
-            r3 = requests.post(f"{jobs_url}{job_id}/mark_as_printed/", headers=headers)
+            elif report == "info_page":
+                print_info(document, categories)
+                printed = True
 
-    time.sleep(3)
+            # Mark print job as printed
+            if printed:
+                r3 = requests.post(
+                    f"{jobs_url}{job_id}/mark_as_printed/", headers=headers
+                )
+
+        time.sleep(3)
+
+
+if __name__ == "__main__":
+    print_server()
