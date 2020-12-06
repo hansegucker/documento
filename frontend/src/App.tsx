@@ -17,8 +17,26 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import DocumentViewer from "./components/DocumentViewer";
 import Categories from "./components/Categories";
 import {Auth, Locale, Messages} from "./types";
+import {createMuiTheme, ThemeProvider} from "@material-ui/core";
 
 let store = createStore(documentoApp, applyMiddleware(thunk));
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#ff7d47",
+      main: "#e64a19",
+      dark: "#ac0800",
+      contrastText: "#FFFFFF",
+    },
+    secondary: {
+      light: "#ffff6e",
+      main: "#cddc39",
+      dark: "#99aa00",
+      contrastText: "#000000",
+    },
+  },
+});
 
 function RootContainerComponent(props: {
   auth: Auth;
@@ -69,25 +87,34 @@ function RootContainerComponent(props: {
       messages={props.messages[props.locale.id]}
       locale={props.locale.id}
       defaultLocale="en">
-      <BrowserRouter>
-        {props.auth.isAuthenticated ? <Header /> : ""}
-        <div className={props.auth.isAuthenticated ? classes.toolbar : ""} />
-        <main
-          className={
-            props.auth.isAuthenticated || props.auth.isLoading
-              ? classes.content
-              : classes.contentLogin
-          }>
-          <Switch>
-            <PrivateRoute exact path={"/"} component={Documents} />
-            <PrivateRoute exact path={"/categories/"} component={Categories} />
-            <PrivateRoute path={"/documents/:id"} component={DocumentViewer} />
-            <Route exact path="/login" component={Login} />
-            <Route component={NotFound} />
-          </Switch>
-        </main>
-        <Footer />
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          {props.auth.isAuthenticated ? <Header /> : ""}
+          <div className={props.auth.isAuthenticated ? classes.toolbar : ""} />
+          <main
+            className={
+              props.auth.isAuthenticated || props.auth.isLoading
+                ? classes.content
+                : classes.contentLogin
+            }>
+            <Switch>
+              <PrivateRoute exact path={"/"} component={Documents} />
+              <PrivateRoute
+                exact
+                path={"/categories/"}
+                component={Categories}
+              />
+              <PrivateRoute
+                path={"/documents/:id"}
+                component={DocumentViewer}
+              />
+              <Route exact path="/login" component={Login} />
+              <Route component={NotFound} />
+            </Switch>
+          </main>
+          <Footer />
+        </BrowserRouter>
+      </ThemeProvider>
     </IntlProvider>
   );
 }
