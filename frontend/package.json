@@ -52,7 +52,7 @@
     "babel-plugin-react-intl": "^8.2.21",
     "extract-react-intl-messages": "^4.1.1",
     "prettier": "^2.2.1",
-    "react-app-rewired": "^2.1.6",
+    "react-app-rewired": "^2.1.7",
     "webpack-bundle-tracker": "^0.4.3"
   },
   "proxy": "http://localhost:8000"
