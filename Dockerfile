@@ -25,12 +25,13 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
 
 # Install backend dependencies
 WORKDIR /var/www/
-COPY poetry.lock /var/www/
+#COPY poetry.lock /var/www/
 COPY pyproject.toml /var/www/
 RUN set -e; \
     mkdir -p /var/www/media /var/www/static; \
+    sed -i '/documento-/c\' pyproject.toml; \
     poetry config virtualenvs.create false; \
-    eatmydata poetry install;
+    eatmydata poetry install --no-dev;
 
 # Install frontend dependencies
 WORKDIR /var/www/frontend/
