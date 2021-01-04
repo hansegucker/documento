@@ -1317,12 +1317,21 @@
     intl-messageformat-parser "6.1.2"
     tslib "^2.0.1"
 
-"@formatjs/ts-transformer@2.12.12", "@formatjs/ts-transformer@^2.6.0":
+"@formatjs/ts-transformer@2.12.12":
   version "2.12.12"
   resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-2.12.12.tgz#8c5aebcafd8839f20867f6ecdb4833bc0656a179"
   integrity sha512-MWmZcdtHQzYl+zwDU4ms9pktLq5/kkRTAaqh14Yt+Tlm5UPshCUUwv99w1Q9HZckXyUOuBnHCiA8s286c78mDw==
   dependencies:
     intl-messageformat-parser "6.1.1"
+    tslib "^2.0.1"
+    typescript "^4.0"
+
+"@formatjs/ts-transformer@2.13.0", "@formatjs/ts-transformer@^2.6.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-2.13.0.tgz#df47b35cdd209269d282a411f1646e0498aa8fdc"
+  integrity sha512-mu7sHXZk1NWZrQ3eUqugpSYo8x5/tXkrI4uIbFqCEC0eNgQaIcoKgVeDFgDAcgG+cEme2atAUYSFF+DFWC4org==
+  dependencies:
+    intl-messageformat-parser "6.1.2"
     tslib "^2.0.1"
     typescript "^4.0"
 
@@ -3014,18 +3023,18 @@ babel-plugin-react-intl@^7.0.0:
     intl-messageformat-parser "^5.3.7"
     schema-utils "^2.6.6"
 
-babel-plugin-react-intl@^8.2.23:
-  version "8.2.23"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-8.2.23.tgz#0b1e5d8827195fb7d648b834f2da15df2adfa732"
-  integrity sha512-4QNZLWDtv+ztNyX+CLpa54XFeWZJj6gjWGC8Kthhag4ssp+nK/D5R1AbKGn2t1mepmYD1bcDsnDV+kF4/TtlQg==
+babel-plugin-react-intl@^8.2.25:
+  version "8.2.25"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-8.2.25.tgz#7b6adaa2bc291ac7b9f87bf51f1c2ea8974ffe84"
+  integrity sha512-vqzRwqxMKHBKEpzWIIabxUXSBYd8urOkk49nQdzgEt55tLIuDc1XdHceeMNaeJt9VRLYZUiL5vpYpnvrntUNMQ==
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/helper-plugin-utils" "^7.8.3"
     "@babel/types" "^7.9.5"
-    "@formatjs/ts-transformer" "2.12.12"
+    "@formatjs/ts-transformer" "2.13.0"
     "@types/babel__core" "^7.1.7"
     "@types/schema-utils" "^2.4.0"
-    intl-messageformat-parser "6.1.1"
+    intl-messageformat-parser "6.1.2"
     schema-utils "^3.0.0"
     tslib "^2.0.1"
 
