@@ -13,13 +13,15 @@ module.exports = {
         })
       );
 
-      config.entry = config.entry.filter(
-        (x) => !x.includes("webpackHotDevClient")
-      );
-      config.entry.push(
-        require.resolve("webpack-dev-server/client") + "?http://localhost:3000"
-      );
-      config.entry.push(require.resolve("webpack/hot/dev-server"));
+      // console.log(config);
+      //
+      // config.entry = config.entry.filter(
+      //   (x) => !x.includes("webpackHotDevClient")
+      // );
+      // config.entry.push(
+      //   require.resolve("webpack-dev-server/client") + "?http://localhost:3000"
+      // );
+      // config.entry.push(require.resolve("webpack/hot/dev-server"));
     } else if (env === "production") {
       config.output.publicPath = "/static/bundles/";
 
