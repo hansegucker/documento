@@ -15,8 +15,8 @@ django-cleanup = "^5.1.0"
 blabel = "^0.1.4"
 
 [tool.poetry.dev-dependencies]
-documento-client = {path = "client"}
-documento-printserver = {path = "printserver"}
+documento-client = {path = "../documento-client"}
+documento-printserver = {path = "../documento-printserver"}
 
 [build-system]
 requires = ["poetry>=0.12"]
