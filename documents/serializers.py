@@ -2,9 +2,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from documents.models import Category, Document, PrintJob
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
+
+from documents.models import Category, Document, PrintJob
 
 
 class UserSerializer(ModelSerializer):
@@ -14,9 +15,7 @@ class UserSerializer(ModelSerializer):
 
 
 class CategorySerializer(HyperlinkedModelSerializer):
-    parent = serializers.PrimaryKeyRelatedField(
-        queryset=Category.objects.all(), required=False
-    )
+    parent = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
 
     class Meta:
         model = Category
@@ -27,9 +26,7 @@ class CategorySerializer(HyperlinkedModelSerializer):
 class DocumentSerializer(HyperlinkedModelSerializer):
     barcode = serializers.SerializerMethodField()
     barcode_label = serializers.SerializerMethodField()
-    category = serializers.PrimaryKeyRelatedField(
-        queryset=Category.objects.all(), required=False
-    )
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
 
     def get_barcode_label(self, obj):
         return reverse("barcode_label", args=[obj.pk])

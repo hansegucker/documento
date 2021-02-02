@@ -25,12 +25,12 @@ class Category(models.Model):
     )
     name = models.CharField(max_length=255, verbose_name=_("Name"))
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
+
+    def __str__(self):
+        return self.name
 
 
 class Document(models.Model):
@@ -47,27 +47,25 @@ class Document(models.Model):
         _("PDF file"),
         validators=[FileExtensionValidator(allowed_extensions=["pdf"])],
         upload_to=rename_document_pdf,
-        null=True,
         blank=True,
     )
     added_at = models.DateTimeField(auto_now_add=True)
     is_in_progress = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
     @property
     def barcode(self):
-        if self.id:
-            id = self.id
+        if self.pk:
+            pk = self.pk
         else:
-            id = Document.get_next_id()
-        return "{num:08d}".format(num=id)
+            pk = Document.get_next_id()
+        return "{num:08d}".format(num=pk)
 
     @classmethod
     def get_next_id(cls):
-        return (
-            cls.objects.aggregate(Max("id"))["id__max"] + 1
-            if cls.objects.all().exists()
-            else 1
-        )
+        return cls.objects.aggregate(Max("id"))["id__max"] + 1 if cls.objects.all().exists() else 1
 
     @property
     def barcode_record(self):
@@ -106,10 +104,11 @@ class PrintJob(models.Model):
         verbose_name=_("Document to print"),
     )
     is_printed = models.BooleanField(default=False, verbose_name=_("Printed"))
-    printed_at = models.DateTimeField(
-        blank=True, null=True, verbose_name=_("Printed at")
-    )
+    printed_at = models.DateTimeField(blank=True, null=True, verbose_name=_("Printed at"))
 
     class Meta:
         verbose_name = _("Print job")
         verbose_name_plural = _("Print jobs")
+
+    def __str__(self):
+        return f"{self.report}: {self.document}"

@@ -6,9 +6,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv(
-    "DOCUMENTO_SECRET_KEY", "r$ebsd+3b&*4i)lf1uw(r*%k13yn7%41oi7ulw)+bgoke498_^"
-)
+SECRET_KEY = os.getenv("DOCUMENTO_SECRET_KEY", "r$ebsd+3b&*4i)lf1uw(r*%k13yn7%41oi7ulw)+bgoke498_^")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv("DOCUMENTO_DEBUG", 1)))
@@ -84,9 +82,7 @@ if e:
 # Password validation
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
