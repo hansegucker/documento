@@ -1,28 +1,11 @@
 name: Reformat
 
 on:
-  pull_request:
   push:
 
 jobs:
-  prettier:
-    name: Run prettier
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-
-      - name: Prettify code
-        uses: creyD/prettier_action@v2.2
-        with:
-          commit_message: "Prettify code using prettier"
-          prettier_options: --write frontend/**/*.{js,jsx,html,css,json,ts,tsx}
-
-  black:
-    name: Run black
+  lint:
+    name: Run lint
     runs-on: ubuntu-latest
 
     steps:
@@ -40,11 +23,4 @@ jobs:
       - name: Install dependencies
         run: poetry install && pip install tox
       - name: Reformat
-        run: tox -e reformat
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Reformat code using black"
-
-          commit_options: '--no-verify --signoff'
-
-          file_pattern: "*.py"
+        run: tox -e lint,security
