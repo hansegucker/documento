@@ -1923,16 +1923,15 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@formatjs/cli@^4.2.2":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-4.2.2.tgz#68028e04dcf3a1355ceabe0d7741e76bdcbedaec"
-  integrity sha512-2Z32uuq+KW6d5Zszoc2E9GuXS2nKgJxjY9jMaa76aEvIgBewzZvwiwCOHu63A8DGEo5THd2XWKOfrOfBzEpjKw==
+"@formatjs/cli@^4.2.4":
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-4.2.4.tgz#13db6d6717074786015dcb8f9b2bd27b95da4d78"
+  integrity sha512-c/bf55QymVintDi8II2vnGd57mVLeFncCIo3ZSz33nhBvyGg/9w3ZTh1bD15aQqBFazACOahycqUXhpHKplOhw==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "1.1.1"
-    "@formatjs/ts-transformer" "3.3.3"
+    "@formatjs/icu-messageformat-parser" "1.1.2"
+    "@formatjs/ts-transformer" "3.3.4"
     "@types/json-stable-stringify" "^1.0.32"
     "@types/lodash" "^4.14.150"
-    "@types/loud-rejection" "^2.0.0"
     "@types/node" "14"
     "@vue/compiler-core" "^3.0.0"
     "@vue/compiler-sfc" "^3.0.5"
@@ -1964,6 +1963,15 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@formatjs/icu-messageformat-parser/-/icu-messageformat-parser-1.1.1.tgz#6673ddc0ef3e9fc9707d2cdac623547b0d1e591f"
   integrity sha512-q5CTnRxCkYHltcDWafk+/FuPM2JKQN6yH+k4vQLGlgEmstQOgThm2/H/DvcwBF8eOWqqWrtBmOjAG3s6PjS1XA==
+  dependencies:
+    "@formatjs/ecma402-abstract" "1.6.4"
+    "@formatjs/icu-skeleton-parser" "1.1.1"
+    tslib "^2.1.0"
+
+"@formatjs/icu-messageformat-parser@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@formatjs/icu-messageformat-parser/-/icu-messageformat-parser-1.1.2.tgz#e0d41edcfd031c0627b0f40dfcce5883d765df5d"
+  integrity sha512-AgwoQ2XUL+bQ/v7t4TBJh9vsob8zXgfM3RNe3MvJBCVOEZ+9z8mszsqeae/DmJgLK6SDezJex5O9Vdiny58Pwg==
   dependencies:
     "@formatjs/ecma402-abstract" "1.6.4"
     "@formatjs/icu-skeleton-parser" "1.1.1"
@@ -2022,12 +2030,12 @@
     tslib "^2.0.1"
     typescript "^4.0"
 
-"@formatjs/ts-transformer@3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.3.3.tgz#6d323e71897d961c60d53d3e04c9dc751dc06188"
-  integrity sha512-FB2Vq2r8roX2CejoaaFXEDqVYAbvwmPuVwPnGlQYbVdm+ZT7o8Bi2zFz5bXny1XL7R2tp/7ZjS++kEWV4YTXtw==
+"@formatjs/ts-transformer@3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@formatjs/ts-transformer/-/ts-transformer-3.3.4.tgz#c15b1934efc046a3aec3fd6b869bc4e694cfd397"
+  integrity sha512-XAXGBGTFfmVPsMDIcFjHYOa9kpEcrhy88rTOAv51Q7gMIK1uW48Ws1jQcvfBxLN32WVFM+1xlfNb8PnL9Qb8sQ==
   dependencies:
-    "@formatjs/icu-messageformat-parser" "1.1.1"
+    "@formatjs/icu-messageformat-parser" "1.1.2"
     tslib "^2.1.0"
     typescript "^4.0"
 
@@ -2763,13 +2771,6 @@
   version "4.14.161"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.161.tgz#a21ca0777dabc6e4f44f3d07f37b765f54188b18"
   integrity sha512-EP6O3Jkr7bXvZZSZYlsgt5DIjiGr0dXP1/jVEwVLTFgg0d+3lWVQkRavYVQszV7dYUwvg0B8R0MBDpcmXg7XIA==
-
-"@types/loud-rejection@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@types/loud-rejection/-/loud-rejection-2.0.0.tgz#271bb21c63f51776e1156604cda3b21a2d3f60f3"
-  integrity sha512-oTHISsIybJGoh3b3Ay/10csbAd2k0su7G7DGrE1QWciC+IdydPm0WMw1+Gr9YMYjPiJ5poB3g5Ev73IlLoavLw==
-  dependencies:
-    loud-rejection "*"
 
 "@types/minimatch@*":
   version "3.0.3"
@@ -8549,7 +8550,7 @@ loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1, loose-envify@^1.4
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-loud-rejection@*, loud-rejection@^2.2.0:
+loud-rejection@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/loud-rejection/-/loud-rejection-2.2.0.tgz#4255eb6e9c74045b0edc021fa7397ab655a8517c"
   integrity sha512-S0FayMXku80toa5sZ6Ro4C+s+EtFDCsyJNG/AzFMfX3AxD5Si4dZsgzm/kKnbOxHl5Cv8jBlno8+3XYIh2pNjQ==
