@@ -1,0 +1,9 @@
+include:
+  - project: "documento/documento"
+    file: /ci/general.yml
+  - project: "documento/documento"
+    file: /ci/python/lint.yml
+  - project: "documento/documento"
+    file: /ci/js/lint.yml
+  - project: "documento/documento"
+    file: /ci/docker.yml

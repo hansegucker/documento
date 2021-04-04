@@ -1,0 +1,5 @@
+lint_python:
+  interruptible: true
+  stage: test
+  script:
+    - tox -e lint,security

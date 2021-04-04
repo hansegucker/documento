@@ -1,0 +1,7 @@
+lint_js:
+  interruptible: true
+  stage: test
+  before_script:
+    - yarnpkg global add prettier
+  script:
+    - prettier --check frontend/**/*.{js,jsx,html,css,json,ts,tsx}
