@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "A small Document Management System (DMS)"
 authors = ["Jonathan Weth <dev@jonathanweth.de>"]
 license = "GPL-3.0-or-later"
+repository = "https://edugit.org/documento/documento"
 
 [tool.poetry.dependencies]
 python = "^3.6,<3.10"
