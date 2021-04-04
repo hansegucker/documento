@@ -1,7 +1,8 @@
 lint_js:
   interruptible: true
   stage: test
+  image: node
   before_script:
     - yarnpkg global add prettier
   script:
-    - prettier --check frontend/**/*.{js,jsx,html,css,json,ts,tsx}
+    - prettier --check $CI_PROJECT_DIR/frontend/**/*.{js,jsx,html,css,json,ts,tsx}
